@@ -26,7 +26,7 @@ public class Client {
         this.creditCards = new ArrayList<>();
     }
 
-    public void register() {
+    public static void register() {
         System.out.println("Client registered: " + firstName + " " + lastName);
     }
 

@@ -2,6 +2,7 @@ package Persons;
 
 import java.time.LocalDate;
 import BankSystem.*;
+import BankSystem.Utils.Role;
 
 public class Capturist extends Employee {
     public Capturist(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, double salary, LocalDate startDate, String password) {
