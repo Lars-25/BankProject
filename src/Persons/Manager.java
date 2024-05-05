@@ -9,63 +9,119 @@ public class Manager extends Employee {
         super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.MANAGER, salary, startDate, branchOffice);
     }
 
-    public void registerClient(){
+    public static void registerClient(){
         
     }
 
-    public void modifyClient(){
+    public static void modifyClient(){
         
     }
 
-    public void deleteClient(){
+    public static void deleteClient(){
         
     }
 
-    public void searchClient(){
+    public static void searchClient(){
         
     }
 
-    public void registerInvestor(){
+    public static void showInfoClient(){
         
     }
 
-    public void deleteInvestor(){
+    public static void showInfoAllClients(){
         
     }
 
-    public void searchInvestor(){
+    public static void registerInvestor(){
         
     }
 
-    public void registerAccountExecutive(){
+    public static void deleteInvestor(){
         
     }
 
-    public void modifyAccountExecutive(){
+    public static void modifyInvestor(){
         
     }
 
-    public void deleteAccountExecutive(){
+    public static void searchInvestor(){
         
     }
 
-    public void searchAccountExecutive(){
+    public static void showInfoInvestor(){
         
     }
 
-    public void authorizeCard(){
+    public static void showInfoAllInvestors(){
         
     }
 
-    public void denyCard(){
+    public static void registerAccountExecutive(){
         
     }
 
-    public void viewCapturistMovement(){
+    public static void modifyAccountExecutive(){
         
     }
 
-    public void viewInvestorFunds() {
+    public static void deleteAccountExecutive(){
+        
+    }
+
+    public static void searchAccountExecutive(){
+        
+    }
+
+    public static void showInfoAccountExecutive(){
+        
+    }
+
+    public static void showInfoAllAccountExecutives(){
+        
+    }
+
+    public static void registerCapturist(){
+        
+    }
+
+    public static void modifyCapturist(){
+        
+    }
+
+    public static void deleteCapturist(){
+        
+    }
+
+    public static void searchCapturist(){
+        
+    }
+
+    public static void showInfoCapturist(){
+        
+    }
+
+    public static void showInfoAllCapturists(){
+        
+    }
+    
+    public static void viewCapturistMovement(){
+        
+    }
+
+    public static void viewInvestorInvestment() {
+        
+    }
+
+    public static void viewCardRequest(){
+        
+    }
+
+    public static void authorizeCard(){
+        
+    }
+
+    public static void denyCard(){
         
     }
 }

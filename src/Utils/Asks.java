@@ -2,40 +2,39 @@ package Utils;
 
 import java.util.Scanner;
 
-import BankSystem.Utils.Role;
-
 public class Asks {
 
-      static Scanner sc = new Scanner(System.in);
+    static Scanner sc = new Scanner(System.in);
 
     //Para respuestas
-    public static String forString(String cad) {
-        print(cad);
+    public static String forString(String message) {
+        System.out.printf("\nEnter %s: ", message);
         String answer = sc.next();
         sc.nextLine();
         return answer;
     }
 
-    public static double forDouble(String cad) {
-        print(cad);
+    public static double forDouble(String message) {
+        System.out.printf("\nEnter %s: ", message);
         double answer = sc.nextDouble();
         return answer;
     }
 
-    public static int forInt(String cad) {
-        print(cad);
+    public static int forInt(String message) {
+        System.out.printf("\nEnter %s: ", message);
         int answer = sc.nextInt();
         return answer;
     }
 
-    public static long forLong(String cad) {
-        print(cad);
+    public static long forLong(String message) {
+        System.out.printf("\nEnter %s: ", message);
         long answer = sc.nextInt();
         return answer;
     }
 
-    public static boolean forBoolean(String cad) {
-        System.out.printf("IS %s?", cad);
+    @Deprecated
+    public static boolean forBoolean(String message) {
+        System.out.print(message);
         System.out.println("1. Yes");
         System.out.println("2. No");
         int answer = sc.nextInt();
@@ -46,10 +45,5 @@ public class Asks {
         }
     }
 
-    private static void print(String cad) {
-        System.out.printf("\nEnter %s: ", cad);
-    }
-
-    
 
 }

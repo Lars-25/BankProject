@@ -14,7 +14,7 @@ public abstract class Investor extends User {
         this.branchOffice = branchOffice;
     }
 
-    public void provideFunds() {
+    public static void makeInvestment() {
 
     }
 

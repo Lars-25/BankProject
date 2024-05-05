@@ -9,19 +9,19 @@ public class Capturist extends Employee {
         super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.CAPTURIST, salary, startDate, branchOffice);
     }
 
-    public void registerAccountExecutive(){
+    public static void registerAccountExecutive(){
         
     }
 
-    public void modifyAccountExecutive(){
+    public static void modifyAccountExecutive(){
         
     }
 
-    public void deleteAccountExecutive(){
+    public static void deleteAccountExecutive(){
         
     }
 
-    public void searchAccountExecutive(){
+    public static void searchAccountExecutive(){
         
     }
     

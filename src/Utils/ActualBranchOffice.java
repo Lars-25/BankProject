@@ -20,7 +20,7 @@ public class ActualBranchOffice {
         return actualBranchOffice;
     }
 
-    public void setSucursal(BranchOfficeRole branchOfficeRole) {
+    public void setBracnhOffice(BranchOfficeRole branchOfficeRole) {
         this.actualBranchOffice = branchOfficeRole;
     }
 

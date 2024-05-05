@@ -14,20 +14,30 @@ public abstract class Client extends User {
         this.branchOffice = branchOffice;
     }
 
-    public void requestCard() {
+    public static void requestCard() {
 
     }
 
-    public void viewStatus() {
+    public static void viewStatus() {
 
     }
 
-    public void deposit() {
+    public static void deposit() {
 
     }
 
-    public void withdraw() {
+    public static void withdraw() {
 
     }
+
+    public static void consultCardInfo() {
+
+    }
+
+    public static void modifyPersonalInfo() {
+
+    }
+
+    
 
 }

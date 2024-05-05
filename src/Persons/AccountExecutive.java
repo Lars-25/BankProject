@@ -9,27 +9,31 @@ public class AccountExecutive extends Employee {
         super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.ACCOUNT_EXECUTIVE, salary, startDate, branchOffice);
     }
 
-    public void registerClient(){
+    public static void registerClient(){
         
     }
 
-    public void modifyClient(){
+    public static void modifyClient(){
         
     }
 
-    public void deleteClient(){
+    public static void deleteClient(){
         
     }
 
-    public void searchClient(){
+    public static void searchClient(){
         
     }
 
-    public void authorizeCard(){
+    public static void showInfoClient(){
         
     }
 
-    public void denyCard(){
+    public static void authorizeCard(){
+        
+    }
+
+    public static void denyCard(){
         
     }
     
