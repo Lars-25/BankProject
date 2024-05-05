@@ -1,31 +1,27 @@
 package Persons;
 
+import java.time.LocalDate;
+
 import BankSystem.Utils.Role;
 
-public abstract class Person {
-    protected String firstName, lastName, city, state, rfc, curp, address,username,password;
-    protected int birthYear;
+public class User {
+    private String firstName, lastName, username, password, city, country, rfc, curp, address;
     private Role role;
+    private LocalDate birthYear;
     
-    public Person(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, String username, String password, Role role) {
+    public User(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthYear = birthYear;
         this.city = city;
-        this.state = state;
-        this.rfc = generateRFC();
+        this.country = country;
+        this.rfc = rfc;
         this.curp = curp;
         this.address = address;
-        this.username=username;
-        this.password=password;
-        this.role=role;
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
-
-    private String generateRFC() {
-        // Simplified RFC generation logic
-        return firstName.substring(0, 2) + lastName.substring(0, 2) + birthYear;
-    }
-
     
     public String getFirstName() {
         return firstName;
@@ -51,12 +47,12 @@ public abstract class Person {
         this.city = city;
     }
 
-    public String getState() {
-        return state;
+    public String getCountry() {
+        return country;
     }
 
-    public void setState(String state) {
-        this.state = state;
+    public void setCountry(String country) {
+        this.country = country;
     }
 
     public String getRfc() {
@@ -83,11 +79,11 @@ public abstract class Person {
         this.address = address;
     }
 
-    public int getBirthYear() {
+    public LocalDate getBirthYear() {
         return birthYear;
     }
 
-    public void setBirthYear(int birthYear) {
+    public void setBirthYear(LocalDate birthYear) {
         this.birthYear = birthYear;
     }
 

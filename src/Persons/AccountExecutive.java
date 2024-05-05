@@ -5,13 +5,32 @@ import BankSystem.*;
 import BankSystem.Utils.Role;
 
 public class AccountExecutive extends Employee {
-    public AccountExecutive(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, double salary, LocalDate startDate, String password) {
-        super(firstName, lastName, birthYear, city, state, rfc, curp, address, salary, Role.ACCOUNT_EXECUTIVE, startDate, password);
+    public AccountExecutive(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, BranchOffice branchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.ACCOUNT_EXECUTIVE, salary, startDate, branchOffice);
     }
 
-    @Override
-    public void performDuties() {
-        System.out.println("Handling client accounts.");
-        System.out.println();
+    public void registerClient(){
+        
     }
+
+    public void modifyClient(){
+        
+    }
+
+    public void deleteClient(){
+        
+    }
+
+    public void searchClient(){
+        
+    }
+
+    public void authorizeCard(){
+        
+    }
+
+    public void denyCard(){
+        
+    }
+    
 }

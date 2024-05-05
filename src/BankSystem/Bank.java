@@ -6,12 +6,12 @@ import java.util.HashMap;
 import java.util.Scanner;
 
 import BankSystem.Utils.Role;
-import Persons.Person;
+import Persons.User;
 
 public class Bank {
-
+    
     private static final Scanner scanner = new Scanner(System.in);
-    public HashMap<Role, ArrayList<Person>> personLists = new HashMap<>();
+    public HashMap<Role, ArrayList<User>> personLists = new HashMap<>();
 
     public LocalDate askForDate(){
         int month, day, year;
@@ -37,12 +37,12 @@ public class Bank {
     }
 
 
-    public Person verifyLogin(String username, String password) {
+    public User verifyLogin(String username, String password) {
     if (username.equals(manager.getUsername()) && password.equals(manager.getPassword())) {
         return manager;
     }
-    for (ArrayList<Person> list : personLists.values()) {
-        for (Person person : list) {
+    for (ArrayList<User> list : personLists.values()) {
+        for (User person : list) {
             if (username.equals(person.getUsername())) {
                 if (password.equals(person.getPassword())) {
                     return person;
@@ -52,6 +52,13 @@ public class Bank {
     }
     return null;
 }
+
+//private String generateRFC() {
+    // Simplified RFC generation logic
+    //return firstName.substring(0, 2) + lastName.substring(0, 2) + birthYear;
+//}
+
+
 
     
 }

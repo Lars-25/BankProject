@@ -1,37 +1,33 @@
 package Persons;
 
 import java.time.LocalDate;
-import java.util.*;
 import BankSystem.*;
-import Cards.*;
+import BankSystem.Utils.Role;
 
-public class Client {
-    private String firstName, lastName, city, state, rfc, curp, address;
-    private int birthYear;
+public abstract class Client extends User {
     private LocalDate registrationDate;
-    private BranchOffice branch;
-    private DebitCard debitCard;
-    private List<CreditCard> creditCards;
+    private BranchOffice branchOffice;
 
-    public Client(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, LocalDate registrationDate) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthYear = birthYear;
-        this.city = city;
-        this.state = state;
-        this.rfc = rfc;
-        this.curp = curp;
-        this.address = address;
+    public Client(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, LocalDate registrationDate, BranchOffice branchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, role);
         this.registrationDate = registrationDate;
-        this.creditCards = new ArrayList<>();
+        this.branchOffice = branchOffice;
     }
 
-    public static void register() {
-        System.out.println("Client registered: " + firstName + " " + lastName);
+    public void requestCard() {
+
     }
 
-    public DebitCard assignDebitCard() {
-        // this.debitCard = new DebitCard();
-        return debitCard;
+    public void viewStatus() {
+
     }
+
+    public void deposit() {
+
+    }
+
+    public void withdraw() {
+
+    }
+
 }

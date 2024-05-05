@@ -4,20 +4,16 @@ import java.time.LocalDate;
 import BankSystem.*;
 import BankSystem.Utils.Role;
 
-public abstract class Employee extends Person {
-    protected double salary;
-    protected Role role;
-    protected LocalDate startDate;
-    protected BranchOffice branch;
-    protected String password;
+public abstract class Employee extends User {
+    private double salary;
+    private LocalDate startDate;
+    private BranchOffice branchOffice;
 
-    public Employee(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, double salary, Role role, LocalDate startDate, String password) {
-        super(firstName, lastName, birthYear, city, state, rfc, curp, address);
+    public Employee(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, BranchOffice branchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, role);
         this.salary = salary;
-        this.role = role;
         this.startDate = startDate;
-        this.password = password;
+        this.branchOffice = branchOffice;
     }
 
-    public abstract void performDuties();
 }

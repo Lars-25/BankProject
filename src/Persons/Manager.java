@@ -4,30 +4,68 @@ import java.time.LocalDate;
 import BankSystem.*;
 import BankSystem.Utils.Role;
 
-public class Manager extends Employee implements Authenticatable {
-    public Manager(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, double salary, LocalDate startDate, String password) {
-        super(firstName, lastName, birthYear, city, state, rfc, curp, address, salary, Role.MANAGER, startDate, password);
+public class Manager extends Employee {
+    public Manager(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, BranchOffice branchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.MANAGER, salary, startDate, branchOffice);
     }
 
-    @Override
-    public void performDuties() {
-        System.out.println("Managing the entire branch.");
+    public void registerClient(){
+        
     }
 
-    @Override
-    public boolean authenticate(String password) {
-        return this.password.equals(password);
+    public void modifyClient(){
+        
     }
 
-    public void manageSystem() {
-        System.out.println("Managing system.");
+    public void deleteClient(){
+        
     }
 
-    public void registerInvestor() {
-        System.out.println("Investor registered.");
+    public void searchClient(){
+        
+    }
+
+    public void registerInvestor(){
+        
+    }
+
+    public void deleteInvestor(){
+        
+    }
+
+    public void searchInvestor(){
+        
+    }
+
+    public void registerAccountExecutive(){
+        
+    }
+
+    public void modifyAccountExecutive(){
+        
+    }
+
+    public void deleteAccountExecutive(){
+        
+    }
+
+    public void searchAccountExecutive(){
+        
+    }
+
+    public void authorizeCard(){
+        
+    }
+
+    public void denyCard(){
+        
+    }
+
+    public void viewCapturistMovement(){
+        
     }
 
     public void viewInvestorFunds() {
-        System.out.println("Viewing investor funds.");
+        
     }
 }

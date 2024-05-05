@@ -1,11 +1,11 @@
 package Utils;
 
-import Persons.Person;
+import Persons.User;
 
 public class PersonInSession {
 
     private static PersonInSession instance;
-    private Person actualPerson;
+    private User actualPerson;
 
     private PersonInSession() {
     }
@@ -17,11 +17,11 @@ public class PersonInSession {
         return instance;
     }
 
-    public Person getActualPerson() {
+    public User getActualPerson() {
         return actualPerson;
     }
 
-    public void setPerson(Person person) {
+    public void setPerson(User person) {
         this.actualPerson = person;
     }
 
