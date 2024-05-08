@@ -1,4 +1,4 @@
-package Utils;
+package BankSystem;
 
 import BankSystem.Utils.BranchOfficeRole;
 

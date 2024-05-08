@@ -22,7 +22,7 @@ public class User {
         this.password = password;
         this.role = role;
     }
-    
+
     public String getFirstName() {
         return firstName;
     }
@@ -106,6 +106,8 @@ public class User {
     public Role getRole() {
         return role;
     }
+
+    
 
     
     

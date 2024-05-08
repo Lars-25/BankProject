@@ -7,7 +7,18 @@ import Utils.*;
 
 public class Menu {
     private static final Scanner scanner = new Scanner(System.in);
-    public static HashMap<BranchOfficeRole,Bank> branchOffices=new HashMap<>();
+    public static HashMap<BranchOfficeRole,Bank> branchOffices = new HashMap<>();
+
+    static {
+        initializeBranchOffices();
+    }
+
+    private static void initializeBranchOffices() {
+        // Assume BranchOfficeRole includes MADERO and ACUEDUCTO as values
+        branchOffices.put(BranchOfficeRole.MADERO, new Bank());
+        branchOffices.put(BranchOfficeRole.ACUEDUCTO, new Bank());
+    }
+    
 
     public static void executeMenu(){
         BranchOfficeRole branchOfficeRole = null;
@@ -19,7 +30,7 @@ public class Menu {
                 ActualBranchOffice.getInstance().setBracnhOffice(branchOfficeRole);
             }
 
-            logIn();
+            signIn();
             
             System.out.printf("\nYou are currently in the Branch Office: %s", ActualBranchOffice.getInstance().getActualBranchOffice().toString());
             System.out.println("1. Stay in this branch");
@@ -31,6 +42,25 @@ public class Menu {
                 ActualBranchOffice.getInstance().closeBranchOffice();
             }
         } while (flag);
+    }
+
+    private static void signIn() {
+        boolean correctData = false;
+        System.out.println("------------SIGN IN ------------");
+        do {
+            String username = Asks.forString("username");
+            String password = Asks.forString("password");
+
+            Bank currentBank = branchOffices.get(ActualBranchOffice.getInstance().getActualBranchOffice());
+            User user = currentBank.verifyLogin(username, password);
+            if (user != null) {
+                PersonInSession.getInstance().setPerson(user);
+                correctData = true;
+                selectMenu();
+            } else {
+                System.out.println("Username or password wrong, Try again.");
+            }
+        } while (!correctData);
     }
 
     //Diferentes menus por el rol
@@ -214,26 +244,6 @@ public class Menu {
         }
     }
 
-    
-    //Iniciar sesion
-    private static void logIn() {
-        boolean correctData = false;
-        System.out.println("------------LOG IN ------------");
-        do {
-            String username = Asks.forString("username");
-            String password = Asks.forString("password");
-
-            User person = branchOffices.get(ActualBranchOffice.getInstance().getActualBranchOffice()).verifyLogin(username, password);
-            if (person != null) {
-                PersonInSession.getInstance().setPerson(person);
-                correctData = true;
-                selectMenu();
-            } else {
-                System.out.println("Username or password wrong, Try again.");
-            }
-        } while (!correctData);
-    }
-
 
     //Metodos auxiliares (Select Menu, askUserType, askBranchOffice)
 
@@ -287,7 +297,4 @@ public class Menu {
 
         }
     }
-
-
-
 }
