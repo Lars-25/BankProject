@@ -2,15 +2,39 @@ package Persons;
 
 import java.time.LocalDate;
 import BankSystem.*;
+import BankSystem.Utils.Role;
 
 public class AccountExecutive extends Employee {
-    public AccountExecutive(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, double salary, LocalDate startDate, String password) {
-        super(firstName, lastName, birthYear, city, state, rfc, curp, address, salary, Role.ACCOUNT_EXECUTIVE, startDate, password);
+    public AccountExecutive(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, ActualBranchOffice actualBranchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.ACCOUNT_EXECUTIVE, salary, startDate, actualBranchOffice);
     }
 
-    @Override
-    public void performDuties() {
-        System.out.println("Handling client accounts.");
-        System.out.println();
+    public static void registerClient(){
+        
     }
+
+    public static void modifyClient(){
+        
+    }
+
+    public static void deleteClient(){
+        
+    }
+
+    public static void searchClient(){
+        
+    }
+
+    public static void showInfoClient(){
+        
+    }
+
+    public static void authorizeCard(){
+        
+    }
+
+    public static void denyCard(){
+        
+    }
+    
 }

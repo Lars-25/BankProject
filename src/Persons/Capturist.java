@@ -2,18 +2,27 @@ package Persons;
 
 import java.time.LocalDate;
 import BankSystem.*;
+import BankSystem.Utils.Role;
 
 public class Capturist extends Employee {
-    public Capturist(String firstName, String lastName, int birthYear, String city, String state, String rfc, String curp, String address, double salary, LocalDate startDate, String password) {
-        super(firstName, lastName, birthYear, city, state, rfc, curp, address, salary, Role.CAPTURIST, startDate, password);
+    public Capturist(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, ActualBranchOffice actualBranchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.CAPTURIST, salary, startDate, actualBranchOffice);
     }
 
-    @Override
-    public void performDuties() {
-        System.out.println("Modifying account executive data.");
+    public static void registerAccountExecutive(){
+        
     }
 
-    public void modifyAccountExecutive() {
-        System.out.println("Account Executive modified.");
+    public static void modifyAccountExecutive(){
+        
     }
+
+    public static void deleteAccountExecutive(){
+        
+    }
+
+    public static void searchAccountExecutive(){
+        
+    }
+    
 }

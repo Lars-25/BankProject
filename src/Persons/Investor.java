@@ -1,20 +1,21 @@
 package Persons;
 
-public class Investor {
-    private String firstName, lastName, city, state;
-    private int birthYear;
-    private double investmentAmount;
+import java.time.LocalDate;
+import BankSystem.*;
+import BankSystem.Utils.Role;
 
-    public Investor(String firstName, String lastName, int birthYear, String city, String state, double investmentAmount) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.city = city;
-        this.state = state;
-        this.birthYear = birthYear;
-        this.investmentAmount = investmentAmount;
+public abstract class Investor extends User {
+    private LocalDate startDate;
+    private ActualBranchOffice actualBranchOffice;
+
+    public Investor(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, LocalDate startDate, ActualBranchOffice actualBranchOffice) {
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, role);
+        this.startDate = startDate;
+        this.actualBranchOffice = actualBranchOffice;
     }
 
-    public void provideFunds() {
-        System.out.println("Funds provided: " + investmentAmount);
+    public static void makeInvestment() {
+
     }
+
 }
