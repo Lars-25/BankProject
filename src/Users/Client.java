@@ -1,8 +1,8 @@
-package Persons;
+package Users;
 
 import java.time.LocalDate;
 import BankSystem.*;
-import BankSystem.Utils.Role;
+import Users.Utils.Role;
 
 public abstract class Client extends User {
     private LocalDate registrationDate;

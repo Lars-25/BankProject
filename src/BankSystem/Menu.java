@@ -2,7 +2,8 @@ package BankSystem;
 
 import java.util.*;
 import BankSystem.Utils.*;
-import Persons.*;
+import Users.*;
+import Users.Utils.Role;
 import Utils.*;
 
 public class Menu {
@@ -14,7 +15,6 @@ public class Menu {
     }
 
     private static void initializeBranchOffices() {
-        // Assume BranchOfficeRole includes MADERO and ACUEDUCTO as values
         branchOffices.put(BranchOfficeRole.MADERO, new Bank());
         branchOffices.put(BranchOfficeRole.ACUEDUCTO, new Bank());
     }
@@ -54,7 +54,7 @@ public class Menu {
             Bank currentBank = branchOffices.get(ActualBranchOffice.getInstance().getActualBranchOffice());
             User user = currentBank.verifyLogin(username, password);
             if (user != null) {
-                PersonInSession.getInstance().setPerson(user);
+                UserInSession.getInstance().setActualUser(user);
                 correctData = true;
                 selectMenu();
             } else {
@@ -78,14 +78,14 @@ public class Menu {
             int option = Asks.forInt("the option number ");
 
             switch (option) {
-                case 1 -> System.out.println(PersonInSession.getInstance().getActualPerson());
+                case 1 -> System.out.println(UserInSession.getInstance().getActualUser());
                 case 2 -> Client.modifyPersonalInfo();//Falta hacer los metodos
                 case 3 -> Client.deposit();
                 case 4 -> Client.withdraw();
                 case 5 -> Client.consultCardInfo();
                 case 6 -> Client.requestCard();
                 case 7 -> {
-                    PersonInSession.getInstance().logOut();
+                    UserInSession.getInstance().logOut();
                     break;
                 }
                 default -> System.out.println("An invalid option was entered, please try again");
@@ -109,7 +109,7 @@ public class Menu {
                 case 3 -> Capturist.deleteAccountExecutive();
                 case 4 -> Capturist.searchAccountExecutive();
                 case 5 -> {
-                    PersonInSession.getInstance().logOut();
+                    UserInSession.getInstance().logOut();
                     break;
                 }
                 default -> System.out.println("An invalid option was entered, please try again");
@@ -139,7 +139,7 @@ public class Menu {
                 case 6 -> AccountExecutive.authorizeCard();
                 case 7 -> AccountExecutive.denyCard();
                 case 8 -> {
-                    PersonInSession.getInstance().logOut();
+                    UserInSession.getInstance().logOut();
                     break;
                 }
                 default -> System.out.println("An invalid option was entered, please try again");
@@ -156,10 +156,10 @@ public class Menu {
             int option = Asks.forInt("the option number");
         
             switch (option) {
-                case 1 -> System.out.println(PersonInSession.getInstance().getActualPerson());
+                case 1 -> System.out.println(UserInSession.getInstance().getActualUser());
                 case 2 -> Investor.makeInvestment();//Falta hacer los metodos
                 case 3 -> {
-                    PersonInSession.getInstance().logOut();
+                    UserInSession.getInstance().logOut();
                     break;
                 }
                 default -> System.out.println("An invalid option was entered, please try again");
@@ -236,7 +236,7 @@ public class Menu {
                 case 7 -> Manager.viewCapturistMovement();
                 case 8 -> Manager.viewCardRequest();
                 case 9 -> {
-                    PersonInSession.getInstance().logOut();
+                    UserInSession.getInstance().logOut();
                     break;
                 }
                 default -> System.out.println("An invalid option was entered, please try again");
@@ -248,7 +248,7 @@ public class Menu {
     //Metodos auxiliares (Select Menu, askUserType, askBranchOffice)
 
     public static void selectMenu() {
-        switch (PersonInSession.getInstance().getActualPerson().getRole()) {
+        switch (UserInSession.getInstance().getActualUser().getRole()) {
             case CLIENT ->ClientMenu();
             case CAPTURIST -> CapturistMenu();
             case ACCOUNT_EXECUTIVE -> AccountExecutiveMenu();
