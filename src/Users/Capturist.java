@@ -8,7 +8,6 @@ import BankSystem.*;
 import BankSystem.Utils.BranchOfficeRole;
 import Users.*;
 import Users.Utils.Role;
-import Utils.Utlis.*;
 
 
 public class Capturist extends Employee {

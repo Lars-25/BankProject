@@ -3,7 +3,8 @@ package Users;
 import java.time.LocalDate;
 import java.util.Scanner;
 import Users.Utils.Role;
-import Utils.Utlis.*;
+import Utils.Utils.*;
+import Utils.*;
 
 public class User {
     private String firstName, lastName, username, password, city, country, rfc, curp, address;
@@ -65,7 +66,7 @@ public class User {
                     System.out.println("Enter the new username: ");
                     String username = scanner.nextLine();
 
-                    boolean band2 = Utlis.verifyUser(username);
+                    boolean band2 = Utils.verifyUser(username);
                     if (!band2){
                         break;
                     } else {
