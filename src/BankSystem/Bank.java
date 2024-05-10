@@ -48,7 +48,7 @@ public class Bank {
         User.updateInformation(user);
     }
 
-    public static ArrayList<Long> getNumTarjetas() {
+    public static ArrayList<Long> getNumCards() {
         return numCards;
     }
 

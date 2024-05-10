@@ -9,7 +9,7 @@ public abstract class Client extends User {
     private ActualBranchOffice actualBranchOffice;
 
     public Client(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, LocalDate registrationDate, ActualBranchOffice actualBranchOffice) {
-        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, role);
+        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.CLIENT);
         this.registrationDate = registrationDate;
         this.actualBranchOffice = actualBranchOffice;
     }
