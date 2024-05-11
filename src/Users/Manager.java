@@ -17,8 +17,8 @@ import static BankSystem.Bank.users;
 
 public class Manager extends Employee {
 
-    public Manager(String firstName, String lastName, LocalDate birthDate, String city, String state, String rfc, String curp, String address, String password, BranchOfficeRole branchOfficeRole, String username, double salary, LocalDate startDate) {
-        super(firstName, lastName, birthDate, city, state, rfc, curp, address, password, Role.MANAGER, branchOfficeRole, salary, startDate, username);
+    public Manager(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, BranchOfficeRole branchOfficeRole, double salary, LocalDate startDate) {
+        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, Role.MANAGER, branchOfficeRole, salary, startDate);
     }
 
     public static void registerManager() {
@@ -29,16 +29,17 @@ public class Manager extends Employee {
         String lastName = commonData.get(1);
         LocalDate birthDate = LocalDate.parse(commonData.get(2));
         String city = commonData.get(3);
-        String state = commonData.get(4);
+        String country = commonData.get(4);
         String rfc = commonData.get(5);
         String curp = commonData.get(6);
         String address = commonData.get(7);
         String password = commonData.get(8);
+        String username = commonData.get(9);
         BranchOfficeRole branchOfficeRole = UserInSession.getActualUser().getBranchOfficeRole();
-        Double salary = getSalary();
+        double salary = getSalary();
         LocalDate startDate = getStartDate();
 
-        Manager manager = new Manager(firstName, lastName, birthDate, city, state, rfc, curp, address, password, branchOfficeRole, commonData.get(9), salary, startDate);
+        Manager manager = new Manager(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, branchOfficeRole, salary, startDate);
 
         if (!users.containsKey(branchOfficeRole)) {
             users.put(branchOfficeRole, new HashMap<>());

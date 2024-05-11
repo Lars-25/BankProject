@@ -13,11 +13,12 @@ public class Employee extends User {
     protected double salary;
     protected LocalDate startDate;
 
-    public Employee(String firstName, String lastName, LocalDate birthDate, String city, String state, String rfc, String curp, String address, String password, Role role, BranchOfficeRole branchOfficeRole, double salary, LocalDate startDate, String username) {
-        super(firstName, lastName, birthDate, city, state, rfc, curp, address, password, role, branchOfficeRole, username);
+    public Employee(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, Role role, BranchOfficeRole branchOfficeRole, double salary, LocalDate startDate) {
+        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, role, branchOfficeRole);
         this.salary = salary;
         this.startDate = startDate;
     }
+
 
     public static LocalDate getStartDate() {
         Scanner scanner = new Scanner(System.in);

@@ -21,12 +21,13 @@ public class Client extends User {
     private final ArrayList<CreditCard> creditCards;
     private final ArrayList<RequestCard> cardRequests;
 
-    public Client(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, BranchOfficeRole branchOfficeRole, String username) {
-        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, Role.CLIENT, branchOfficeRole, username);
+    public Client(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, BranchOfficeRole branchOfficeRole) {
+        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, Role.CLIENT, branchOfficeRole);
         this.debitCard = new DebitCard(firstName, lastName, "Debit");
         creditCards = new ArrayList<>();
         cardRequests = new ArrayList<>();
     }
+
 
     public static void registerClient() {
         System.out.println("You have selected the option to register a client.");
@@ -36,14 +37,22 @@ public class Client extends User {
         String lastName = commonData.get(1);
         LocalDate birthDate = LocalDate.parse(commonData.get(2));
         String city = commonData.get(3);
-        String state = commonData.get(4);
+        String country = commonData.get(4);
         String rfc = commonData.get(5);
         String curp = commonData.get(6);
         String address = commonData.get(7);
         String password = commonData.get(8);
+        String username = commonData.get(9);
         BranchOfficeRole branchOfficeRole = UserInSession.getActualUser().getBranchOfficeRole();
 
-        Client client = new Client(firstName, lastName, birthDate, city, state, rfc, curp, address, password, branchOfficeRole, commonData.get(9));
+        Client client = new Client(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, branchOfficeRole);
+
+        if (!users.containsKey(branchOfficeRole)) {
+            users.put(branchOfficeRole, new HashMap<>());
+        }
+        if (!users.get(branchOfficeRole).containsKey(Role.CLIENT)) {
+            users.get(branchOfficeRole).put(Role.CLIENT, new ArrayList<>());
+        }
 
         users.get(branchOfficeRole).get(Role.CLIENT).add(client);
         System.out.println(client.getUsername() + " " + client.getPassword());
@@ -85,7 +94,7 @@ public class Client extends User {
     }
 
     public void showCards() {
-        System.out.println("");
+        System.out.println("Financial Information:\n");
         this.debitCard.showCard();
         for (CreditCard credit : creditCards) {
             System.out.println("");

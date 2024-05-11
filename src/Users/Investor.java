@@ -15,9 +15,10 @@ public class Investor extends User {
     public static Scanner sc = new Scanner(System.in);
     public static ArrayList<FundRecord> fundRecordsList = new ArrayList<>();
 
-    public Investor(String firstName, String lastName, LocalDate birthDate, String city, String state, String rfc, String curp, String address, String password, BranchOfficeRole branchOfficeRole, String username) {
-        super(firstName, lastName, birthDate, city, state, rfc, curp, address, password, Role.INVESTOR, branchOfficeRole, username);
+    public Investor(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, BranchOfficeRole branchOfficeRole) {
+        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, Role.INVESTOR, branchOfficeRole);
     }
+
 
     public static void registerInvestor() {
         System.out.println("You have selected the option to register an investor");
@@ -27,22 +28,23 @@ public class Investor extends User {
         String lastName = commonData.get(1);
         LocalDate birthDate = LocalDate.parse(commonData.get(2));
         String city = commonData.get(3);
-        String state = commonData.get(4);
+        String country = commonData.get(4);
         String rfc = commonData.get(5);
         String curp = commonData.get(6);
         String address = commonData.get(7);
         String password = commonData.get(8);
-        BranchOfficeRole branch = UserInSession.getActualUser().getBranchOfficeRole();
+        String username = commonData.get(9);
+        BranchOfficeRole branchOffice = UserInSession.getActualUser().getBranchOfficeRole();
 
-        Investor investor = new Investor(firstName, lastName, birthDate, city, state, rfc, curp, address, password, branch, commonData.get(9));
-        if (!users.containsKey(branch)) {
-            users.put(branch, new HashMap<>());
+        Investor investor = new Investor(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, branchOffice);
+        if (!users.containsKey(branchOffice)) {
+            users.put(branchOffice, new HashMap<>());
         }
-        if (!users.get(branch).containsKey(Role.INVESTOR)) {
-            users.get(branch).put(Role.INVESTOR, new ArrayList<>());
+        if (!users.get(branchOffice).containsKey(Role.INVESTOR)) {
+            users.get(branchOffice).put(Role.INVESTOR, new ArrayList<>());
         }
 
-        users.get(branch).get(Role.INVESTOR).add(investor);
+        users.get(branchOffice).get(Role.INVESTOR).add(investor);
     }
 
     public static void showInfoAllInvestors() {

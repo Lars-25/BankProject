@@ -41,7 +41,7 @@ public class Utils {
                     }
                 } catch (Exception e) {
                     System.out.println("Error: " + e.getMessage());
-                    scanner.nextLine(); // Limpiar el buffer del scanner
+                    scanner.nextLine();
                 }
             } while (true);
                 //
@@ -52,7 +52,7 @@ public class Utils {
                     try {
                         paternalLastName = scanner.nextLine();
                 
-                        // Verificar si el apellido paterno está vacío o contiene números
+                        //
                         if (paternalLastName.isEmpty()) {
                             band = true;
                         } else {
@@ -64,7 +64,7 @@ public class Utils {
                             }
                         }
                 
-                        // Si el apellido paterno está vacío o contiene números, lanzar una excepción
+                        //
                         if (band) {
                             throw new IllegalArgumentException("Father's last name with numbers or empty is not valid.");
                         } else {
@@ -182,9 +182,9 @@ public class Utils {
                             }
                         }
                     }
-                    break; // Si no hay excepciones, salimos del bucle
+                    break;
                 } catch (IllegalArgumentException e) {
-                    System.out.println(e.getMessage()); // Mostramos el mensaje de error
+                    System.out.println(e.getMessage());
                 }
             } while (true);
             
@@ -216,7 +216,6 @@ public class Utils {
                         System.out.println(e.getMessage());
                     }
                 } while (true);
-                //                
 
         do {
             System.out.println("Enter your address: ");
@@ -227,7 +226,6 @@ public class Utils {
                 break;
             }
         } while (true);
-        ///
         do {
             try {
                 System.out.println("Enter your password: ");
@@ -240,14 +238,13 @@ public class Utils {
                 }
             } catch (Exception e) {
                 System.out.println("An error occurred: " + e.getMessage());
-                scanner.nextLine(); // Limpiar el buffer del scanner
+                scanner.nextLine();
             }
         } while (true);
         
 
         commonData.addAll(Arrays.asList(firstName, fullLastName, birDate.toString(), city, country, rfc, curp, address, password, user));
         return commonData;
-    
     }
     
     public static LocalDate getBirthDate(){
@@ -256,10 +253,10 @@ public class Utils {
         while (true) {
             try {
                 System.out.println("Enter the day of birth: ");
-                int numero = scanner.nextInt();
+                int number = scanner.nextInt();
 
-                if (numero >= 1 && numero <= 31) {
-                    day = numero;
+                if (number >= 1 && number <= 31) {
+                    day = number;
                     break;
                 } else {
                     System.out.println("Invalid number. Must be an integer between 01 and 31.");
@@ -272,10 +269,10 @@ public class Utils {
         while (true) {
             try {
                 System.out.println("Enter the month of birth:  ");
-                int numero = scanner.nextInt();
+                int number = scanner.nextInt();
 
-                if (numero >= 1 && numero <= 12) {
-                    month = numero;
+                if (number >= 1 && number <= 12) {
+                    month = number;
                     break;
                 } else {
                     System.out.println("Invalid number. Must be an integer between 01 and 12.");
@@ -288,10 +285,10 @@ public class Utils {
         while (true) {
             try {
                 System.out.println("Enter the year of birth: ");
-                int numero = scanner.nextInt();
+                int number = scanner.nextInt();
 
-                if (numero >= 1900 && numero <= 2006) {
-                    year = numero;
+                if (number >= 1900 && number <= 2006) {
+                    year = number;
                     break;
                 } else {
                     System.out.println("Invalid number. Must be an integer between 1900 y 2006. ");
@@ -329,33 +326,6 @@ public class Utils {
         String randomCharacters = generateRandomCharacters(3);
 
         return rfcBase + randomCharacters;
-    }
-
-    public static String getCURP(String firstName, String paternalLastName, String maternalLastName, LocalDate birthDate, String gender, String stateCode) {
-        String curp = paternalLastName.substring(0, 2).toUpperCase(Locale.ROOT) +
-                      maternalLastName.substring(0, 1).toUpperCase(Locale.ROOT) +
-                      firstName.substring(0, 1).toUpperCase(Locale.ROOT) +
-                      birthDate.toString().substring(2, 4) +
-                      String.format("%02d", birthDate.getMonthValue()) +
-                      String.format("%02d", birthDate.getDayOfMonth()) +
-                      gender.toUpperCase(Locale.ROOT) +
-                      stateCode.toUpperCase(Locale.ROOT);
-
-        curp += getFirstInternalConsonant(paternalLastName) +
-                getFirstInternalConsonant(maternalLastName) +
-                getFirstInternalConsonant(firstName);
-
-        return curp;
-    }
-
-    private static char getFirstInternalConsonant(String word) {
-        String consonants = "BCDFGHJKLMNÑPQRSTVWXYZ";
-        for (int i = 1; i < word.length(); i++) {
-            if (consonants.contains(String.valueOf(word.charAt(i)).toUpperCase(Locale.ROOT))) {
-                return word.charAt(i);
-            }
-        }
-        return 0;
     }
 
     public static boolean verifyCURP(String curp){

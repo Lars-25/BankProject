@@ -22,9 +22,7 @@ public class User {
     protected Role role;
     protected BranchOfficeRole branchOfficeRole;
 
-    public User(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc,
-            String curp, String address, String password, Role role, BranchOfficeRole branchOfficeRole,
-            String username) {
+    public User(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, Role role, BranchOfficeRole branchOfficeRole) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -33,11 +31,12 @@ public class User {
         this.rfc = rfc;
         this.curp = curp;
         this.address = address;
-        this.username = username;
         this.password = password;
+        this.username = username;
         this.role = role;
         this.branchOfficeRole = branchOfficeRole;
     }
+
 
     public static void showAllUsers(){
         try {
@@ -45,17 +44,15 @@ public class User {
         Client.showInfoAllClients();
         System.out.println("\n******** Investors ********");
         Investor.showInfoAllInvestors();
-        System.out.println("\n******** Ejecutivos de cuenta ********");
+        System.out.println("\n******** Account Executives ********");
         AccountExecutive.showInfoAllAccountExecutives();
-        System.out.println("\n******** Capturistas ********");
+        System.out.println("\n******** Capturists ********");
         Capturist.showInfoAllCapturists();
         } catch (Exception e) {
             System.out.println("There is no users");
         }
         
     }
-
-
 
     public static void updateInformation(User user) {
         Scanner scanner = new Scanner(System.in);

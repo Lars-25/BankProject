@@ -17,8 +17,8 @@ public abstract class Card {
     protected LocalDateTime dateLastMovement;
     protected final String type;
 
-    public Card(String firstName, String fullLastName, String type) {
-        this.fullName = firstName + fullLastName;
+    public Card(String firstName, String lastName, String type) {
+        this.fullName = firstName + lastName;
         this.cardNumber = Utils.getCardNumber();
         this.creationDate = LocalDate.now();
         this.cvv = rand.nextInt(900)+100;

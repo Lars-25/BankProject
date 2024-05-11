@@ -12,8 +12,8 @@ public class CreditCard extends Card {
     private final double maxCredit;
 
 
-    public CreditCard(String firstName, String fullLastName, String type) {
-        super(firstName, fullLastName, type);
+    public CreditCard(String firstName, String lastName, String type) {
+        super(firstName, lastName, type);
 
         
         if (type.equals("Simplicity")) {

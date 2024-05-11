@@ -9,8 +9,8 @@ public class DebitCard extends Card {
     private double balance;
 
 
-    public DebitCard(String firstName, String fullLastName, String type) {
-        super(firstName, fullLastName, type);
+    public DebitCard(String firstName, String lastName, String type) {
+        super(firstName, lastName, type);
         this.balance = 0;
     }
 

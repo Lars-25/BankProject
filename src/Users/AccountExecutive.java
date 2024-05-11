@@ -16,8 +16,9 @@ import static Utils.Utils.getCommonData;
 
 public class AccountExecutive extends Employee {
 
-    public AccountExecutive(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, BranchOfficeRole branch, String username, double salary, LocalDate startDate) {
-        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, Role.ACCOUNT_EXECUTIVE, branch, salary, startDate, username);
+
+    public AccountExecutive(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, BranchOfficeRole branchOfficeRole, double salary, LocalDate startDate) {
+        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, Role.ACCOUNT_EXECUTIVE, branchOfficeRole, salary, startDate);
     }
 
     public static void registerAccountExecutive() {
@@ -33,9 +34,10 @@ public class AccountExecutive extends Employee {
         String curp = commonData.get(6);
         String address = commonData.get(7);
         String password = commonData.get(8);
+        String username = commonData.get(9);
         BranchOfficeRole branchOffice = UserInSession.getActualUser().getBranchOfficeRole();
 
-        AccountExecutive accountExecutive = new AccountExecutive(firstName, lastName, birthDate, city, country, rfc, curp, address, password, branchOffice, commonData.get(9), getSalary(), getStartDate());
+        AccountExecutive accountExecutive = new AccountExecutive(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, branchOffice, getSalary(), getStartDate());
 
         if (!users.containsKey(branchOffice)) {
             users.put(branchOffice, new HashMap<>());

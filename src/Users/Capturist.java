@@ -15,8 +15,9 @@ import static Utils.Utils.getCommonData;
 
 public class Capturist extends Employee {
 
-    public Capturist(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, BranchOfficeRole branchOfficeRole, String username, double salary, LocalDate startDate) {
-        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, Role.CAPTURIST, branchOfficeRole, salary, startDate, username);
+
+    public Capturist(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String password, String username, BranchOfficeRole branchOfficeRole, double salary, LocalDate startDate) {
+        super(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, Role.CAPTURIST, branchOfficeRole, salary, startDate);
     }
 
     public static void registerCapturist() {
@@ -32,9 +33,10 @@ public class Capturist extends Employee {
         String curp = commonData.get(6);
         String address = commonData.get(7);
         String password = commonData.get(8);
+        String username = commonData.get(9);
         BranchOfficeRole branchOfficeRole = UserInSession.getActualUser().getBranchOfficeRole();
 
-        Capturist capturist = new Capturist(firstName, lastName, birthDate, city, country, rfc, curp, address, password, branchOfficeRole, commonData.get(9), getSalary(), getStartDate());
+        Capturist capturist = new Capturist(firstName, lastName, birthDate, city, country, rfc, curp, address, password, username, branchOfficeRole, getSalary(), getStartDate());
 
         if (!users.containsKey(branchOfficeRole)) {
             users.put(branchOfficeRole, new HashMap<>());
