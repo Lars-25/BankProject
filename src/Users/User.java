@@ -57,12 +57,12 @@ public class User {
 
 
 
-    public static void updateInformation(User user){
+    public static void updateInformation(User user) {
         Scanner scanner = new Scanner(System.in);
         String option = "";
         Role role = user.getRole();
         do {
-            System.out.println("What you want to change for the selected user. ");
+            System.out.println("What do you want to change for the selected user?");
             System.out.println("1. City of residence");
             System.out.println("2. Country of residence");
             System.out.println("3. Address");
@@ -70,47 +70,60 @@ public class User {
             System.out.println("5. Username");
             System.out.println("6. Exit");
             option = scanner.nextLine();
-            
-            if (option.equals("1")) {
-                System.out.println("Enter the new city of residence: ");
-                String city = scanner.nextLine();
-                user.setCity(city);
-                System.out.println("City successfully changed");
-            } else if (option.equals("2")) {
-                System.out.println("Enter the new country of residence: ");
-                String country = scanner.nextLine();
-                user.setCountry(country);
-                System.out.println("Country successfully changed");
-            } else if (option.equals("3")) {
-                System.out.println("Enter the new address: ");
-                String address = scanner.nextLine();
-                user.setAddress(address);
-                System.out.println("Address successfully changed");
-            } else if (option.equals("4")) {
-                System.out.println("Enter the new password: ");
-                String password = scanner.nextLine();
-                user.setPassword(password);
-                System.out.println("Password successfully changed");
-            } else if (option.equals("5")) {
-                while (true){
-                    System.out.println("Enter the new username: ");
-                    String username = scanner.nextLine();
-
-                    boolean band2 = Utils.verifyUser(username);
-                    if (!band2){
-                        break;
-                    } else {
-                        System.out.println("The user name is already registered in the system, please enter new data");
+    
+            try {
+                switch (option) {
+                    case "1" -> {
+                        System.out.println("Enter the new city of residence: ");
+                        String city = scanner.nextLine();
+                        user.setCity(city);
+                        System.out.println("City successfully changed");
                     }
+                    case "2" -> {
+                        System.out.println("Enter the new country of residence: ");
+                        String country = scanner.nextLine();
+                        user.setCountry(country);
+                        System.out.println("Country successfully changed");
+                    }
+                    case "3" -> {
+                        System.out.println("Enter the new address: ");
+                        String address = scanner.nextLine();
+                        user.setAddress(address);
+                        System.out.println("Address successfully changed");
+                    }
+                    case "4" -> {
+                        System.out.println("Enter the new password: ");
+                        String password = scanner.nextLine();
+                        user.setPassword(password);
+                        System.out.println("Password successfully changed");
+                    }
+                    case "5" -> {
+                        while (true) {
+                            try {
+                                System.out.println("Enter the new username: ");
+                                String username = scanner.nextLine();
+                                boolean isUsernameAvailable = Utils.verifyUser(username);
+                                if (!isUsernameAvailable) {
+                                    user.setUsername(username);
+                                    System.out.println("Username successfully changed");
+                                    break;
+                                } else {
+                                    System.out.println("The username is already registered in the system. Please enter a different username.");
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Error: " + e.getMessage());
+                            }
+                        }
+                    }
+                    case "6" -> {
+                        System.out.println("Exiting");
+                        break;
+                    }
+                    default -> System.out.println("Invalid Option");
                 }
-                System.out.println("Username successfully changed");
-            } else if (option.equals("6")) {
-                System.out.println("Exiting");
-                break;
-            } else  {
-                System.out.println("Invalid Option");
+            } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
             }
-
         } while (true);
     }
 

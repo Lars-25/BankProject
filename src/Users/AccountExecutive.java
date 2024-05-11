@@ -48,22 +48,30 @@ public class AccountExecutive extends Employee {
     }
 
     public static void showInfoAllAccountExecutives() {
-        ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE);
-        String branchOffice = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
-        if (users.isEmpty()) {
-            System.out.println("There are no account executives at the branch " + branchOffice);
-        } else {
-            System.out.println("Account executives at the branch " + branchOffice + ":");
-            for (User user : users) {
-                AccountExecutive accountExecutive = (AccountExecutive) user;
-                System.out.printf("Name: %s %s\n", accountExecutive.getFirstName(), accountExecutive.getLastName());
-                System.out.printf("Birthdate: %s\n", accountExecutive.getBirthDate().toString());
-                System.out.printf("City: %s %s\n", accountExecutive.getCity());
-                System.out.printf("Country: %s %s\n", accountExecutive.getCountry());
-                System.out.printf("CURP: %s %s\n", accountExecutive.getCurp());
-                System.out.printf("RFC: %s %s\n", accountExecutive.getRfc());
-                System.out.printf("Address: %s %s\n", accountExecutive.getAddress());
+        try {
+            ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE);
+            String branchOffice = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
+            if (users.isEmpty()) {
+                System.out.println("There are no account executives at the branch " + branchOffice);
+            } else {
+                System.out.println("Account executives at the branch " + branchOffice + ":");
+                for (User user : users) {
+                    try {
+                        AccountExecutive accountExecutive = (AccountExecutive) user;
+                        System.out.printf("Name: %s %s\n", accountExecutive.getFirstName(), accountExecutive.getLastName());
+                        System.out.printf("Birthdate: %s\n", accountExecutive.getBirthDate().toString());
+                        System.out.printf("City: %s\n", accountExecutive.getCity());
+                        System.out.printf("Country: %s\n", accountExecutive.getCountry());
+                        System.out.printf("CURP: %s\n", accountExecutive.getCurp());
+                        System.out.printf("RFC: %s\n", accountExecutive.getRfc());
+                        System.out.printf("Address: %s\n", accountExecutive.getAddress());
+                    } catch (Exception e) {
+                        System.out.println("Error retrieving account executive details: " + e.getMessage());
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error retrieving account executives information: " + e.getMessage());
         }
     }
 

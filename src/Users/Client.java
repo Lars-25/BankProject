@@ -50,26 +50,35 @@ public class Client extends User {
     }
 
     public static void showInfoAllClients() {
-        ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
-        String branchOffice = UserInSession.getActualUser().getBranchOfficeRole().name();
-        if (users.isEmpty()) {
-            System.out.println("There are no clients in the branch " + branchOffice);
-        } else {
-            System.out.println("Clients in the branch " + branchOffice + ":");
-            for (User user : users) {
-                Client client = (Client) user;
-                System.out.printf("Username: %s\n", client.getUsername());
-                System.out.printf("Name: %s %s\n", client.getFirstName(), client.getLastName());
-                System.out.printf("Birthdate: %s\n", client.getBirthDate());
-                System.out.printf("City: %s\n", client.getCity());
-                System.out.printf("Country: %s\n", client.getCountry());
-                System.out.printf("CURP: %s\n", client.getCurp());
-                System.out.printf("RFC: %s\n", client.getRfc());
-                System.out.printf("Address: %s\n", client.getAddress());
-                client.showCards();
+        try {
+            ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
+            String branchOffice = UserInSession.getActualUser().getBranchOfficeRole().name();
+            if (users.isEmpty()) {
+                System.out.println("There are no clients in the branch " + branchOffice);
+            } else {
+                System.out.println("Clients in the branch " + branchOffice + ":");
+                for (User user : users) {
+                    try {
+                        Client client = (Client) user;
+                        System.out.printf("Username: %s\n", client.getUsername());
+                        System.out.printf("Name: %s %s\n", client.getFirstName(), client.getLastName());
+                        System.out.printf("Birthdate: %s\n", client.getBirthDate());
+                        System.out.printf("City: %s\n", client.getCity());
+                        System.out.printf("Country: %s\n", client.getCountry());
+                        System.out.printf("CURP: %s\n", client.getCurp());
+                        System.out.printf("RFC: %s\n", client.getRfc());
+                        System.out.printf("Address: %s\n", client.getAddress());
+                        client.showCards();
+                    } catch (Exception e) {
+                        System.out.println("Error retrieving client details: " + e.getMessage());
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error retrieving clients information: " + e.getMessage());
         }
     }
+    
 
     public static void showClientActualBranch() {
         BranchOfficeRole branchOfficeRole = UserInSession.getActualUser().getBranchOfficeRole();
@@ -85,57 +94,61 @@ public class Client extends User {
     }
 
     public void requestCreditCard() {
-        boolean flagS = true;
-        boolean flagP = true;
-        boolean flagG = true;
-        Scanner scanner = new Scanner(System.in);
-        for (CreditCard credit : creditCards) {
-            if (credit.getType().equals("Simplicity")) {
-                flagS = false;
+        try {
+            boolean flagS = true;
+            boolean flagP = true;
+            boolean flagG = true;
+            Scanner scanner = new Scanner(System.in);
+            for (CreditCard credit : creditCards) {
+                if (credit.getType().equals("Simplicity")) {
+                    flagS = false;
+                }
+                if (credit.getType().equals("Platinum")) {
+                    flagP = false;
+                }
+                if (credit.getType().equals("Gold")) {
+                    flagG = false;
+                }
             }
-            if (credit.getType().equals("Platinum")) {
-                flagP = false;
+            if (!flagS && !flagP && !flagG) {
+                System.out.println("You already have all types of cards, no more can be requested");
+                return;
             }
-            if (credit.getType().equals("Gold")) {
-                flagG = false;
-            }
-        }
-        if (!flagS && !flagP && !flagG) {
-            System.out.println("You already have all types of cards, no more can be requested");
-            return;
-        }
-        if (debitCard.getBalance() >= 200000 && flagG) {
-            System.out.printf("Your balance is $%.2f, you can request the Gold card.\n", debitCard.getBalance());
-            System.out.println("Do you want to apply? Y/N: ");
-            String option = scanner.nextLine();
-            if ("Y".equalsIgnoreCase(option)) {
-                new RequestCard((Client)UserInSession.getActualUser(), "Gold");
-                System.out.println("Card successfully requested.");
+            if (debitCard.getBalance() >= 200000 && flagG) {
+                System.out.printf("Your balance is $%.2f, you can request the Gold card.\n", debitCard.getBalance());
+                System.out.println("Do you want to apply? Y/N: ");
+                String option = scanner.nextLine();
+                if ("Y".equalsIgnoreCase(option)) {
+                    new RequestCard((Client)UserInSession.getActualUser(), "Gold");
+                    System.out.println("Card successfully requested.");
+                } else {
+                    System.out.println("Card not requested.");
+                }
+            } else if (debitCard.getBalance() >= 100000 && flagP) {
+                System.out.printf("Your balance is $%.2f, you can request the Platinum card.\n", debitCard.getBalance());
+                System.out.println("Do you want to apply? Y/N: ");
+                String option = scanner.nextLine();
+                if ("Y".equalsIgnoreCase(option)) {
+                    new RequestCard((Client)UserInSession.getActualUser(), "Platinum");
+                    System.out.println("Card successfully requested.");
+                } else {
+                    System.out.println("Card not requested.");
+                }
+            } else if (debitCard.getBalance() >= 50000 && flagS) {
+                System.out.printf("Your balance is $%.2f, you can request the Simplicity card.\n", debitCard.getBalance());
+                System.out.println("Do you want to apply? Y/N: ");
+                String option = scanner.nextLine();
+                if ("Y".equalsIgnoreCase(option)) {
+                    new RequestCard((Client)UserInSession.getActualUser(), "Simplicity");
+                    System.out.println("Card successfully requested.");
+                } else {
+                    System.out.println("Card not requested.");
+                }
             } else {
-                System.out.println("Card not requested.");
+                System.out.println("You are currently unable to request any credit cards.");
             }
-        } else if (debitCard.getBalance() >= 100000 && flagP) {
-            System.out.printf("Your balance is $%.2f, you can request the Platinum card.\n", debitCard.getBalance());
-            System.out.println("Do you want to apply? Y/N: ");
-            String option = scanner.nextLine();
-            if ("Y".equalsIgnoreCase(option)) {
-                new RequestCard((Client)UserInSession.getActualUser(), "Platinum");
-                System.out.println("Card successfully requested.");
-            } else {
-                System.out.println("Card not requested.");
-            }
-        } else if (debitCard.getBalance() >= 50000 && flagS) {
-            System.out.printf("Your balance is $%.2f, you can request the Simplicity card.\n", debitCard.getBalance());
-            System.out.println("Do you want to apply? Y/N: ");
-            String option = scanner.nextLine();
-            if ("Y".equalsIgnoreCase(option)) {
-                new RequestCard((Client)UserInSession.getActualUser(), "Simplicity");
-                System.out.println("Card successfully requested.");
-            } else {
-                System.out.println("Card not requested.");
-            }
-        } else {
-            System.out.println("You are currently unable to request any credit cards.");
+        } catch (Exception e) {
+            System.out.println("An error occurred: " + e.getMessage());
         }
     }
 

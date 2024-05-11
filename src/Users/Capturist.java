@@ -47,22 +47,31 @@ public class Capturist extends Employee {
     }
 
     public static void showInfoAllCapturists() {
-        ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.CAPTURIST);
-        String branchOfficeRole = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
-        if (users.isEmpty()) {
-            System.out.println("There are no capturists in the branch " + branchOfficeRole);
-        } else {
-            System.out.println("Capturists in the branch " + branchOfficeRole + ":");
-            for (User user : users) {
-                Capturist capturist = (Capturist) user;
-                System.out.printf("Name: %s %s", capturist.getFirstName(), capturist.getLastName());
-                System.out.printf("Birthdate: %s", capturist.getBirthDate().toString());
-                System.out.printf("City: %s", capturist.getCity());
-                System.out.printf("Country: %s", capturist.getCountry());
-                System.out.printf("CURP: %s", capturist.getCurp());
-                System.out.printf("RFC: %s", capturist.getRfc());
-                System.out.printf("Address: %s", capturist.getAddress());
+        try {
+            ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.CAPTURIST);
+            String branchOfficeRole = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
+            if (users.isEmpty()) {
+                System.out.println("There are no capturists in the branch " + branchOfficeRole);
+            } else {
+                System.out.println("Capturists in the branch " + branchOfficeRole + ":");
+                for (User user : users) {
+                    try {
+                        Capturist capturist = (Capturist) user;
+                        System.out.printf("Name: %s %s\n", capturist.getFirstName(), capturist.getLastName());
+                        System.out.printf("Birthdate: %s\n", capturist.getBirthDate().toString());
+                        System.out.printf("City: %s\n", capturist.getCity());
+                        System.out.printf("Country: %s\n", capturist.getCountry());
+                        System.out.printf("CURP: %s\n", capturist.getCurp());
+                        System.out.printf("RFC: %s\n", capturist.getRfc());
+                        System.out.printf("Address: %s\n", capturist.getAddress());
+                    } catch (Exception e) {
+                        System.out.println("Error retrieving capturist details: " + e.getMessage());
+                    }
+                }
             }
+        } catch (Exception e) {
+            System.out.println("Error retrieving capturists: " + e.getMessage());
         }
     }
+    
 }

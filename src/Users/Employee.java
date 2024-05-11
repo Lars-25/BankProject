@@ -76,8 +76,20 @@ public class Employee extends User {
 
     public static double getSalary() {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the desired salary for this employee: ");
-        double salary = scanner.nextDouble();
+        double salary = 0.0;
+        boolean validInput = false;
+        
+        do {
+            try {
+                System.out.println("Enter the desired salary for this employee: ");
+                salary = scanner.nextDouble();
+                validInput = true;
+            } catch (Exception e) {
+                System.out.println("Invalid input. Please enter a valid salary value.");
+                scanner.nextLine(); 
+            }
+        } while (!validInput);
+    
         return salary;
     }
 

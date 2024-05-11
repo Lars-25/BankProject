@@ -51,26 +51,34 @@ public class Manager extends Employee {
     }
 
     public static void showAllManagers() {
-        HashMap<BranchOfficeRole, HashMap<Role, ArrayList<User>>> usersByBranchOffice = users;
-        for (Map.Entry<BranchOfficeRole, HashMap<Role, ArrayList<User>>> branchOfficeEntry : usersByBranchOffice.entrySet()) {
-            BranchOfficeRole branchOfficeRole = branchOfficeEntry.getKey();
-            HashMap<Role, ArrayList<User>> rolesAtBranchOffice = branchOfficeEntry.getValue();
-
-            if (rolesAtBranchOffice.containsKey(Role.MANAGER)) {
-                ArrayList<User> branchOfficeManagers = rolesAtBranchOffice.get(Role.MANAGER);
-                System.out.println("Branch Office managers at the branch " + branchOfficeRole + ":");
-                for (User manager : branchOfficeManagers) {
-                    System.out.printf("Name: %s %s\n", manager.getFirstName(), manager.getLastName());
-                    System.out.printf("Birthdate: %s\n", manager.getBirthDate().toString());
-                    System.out.printf("City: %s %s\n", manager.getCity());
-                    System.out.printf("Country: %s %s\n", manager.getCountry());
-                    System.out.printf("CURP: %s %s\n", manager.getCurp());
-                    System.out.printf("RFC: %s %s\n", manager.getRfc());
-                    System.out.printf("Address: %s %s\n", manager.getAddress());
+        try {
+            HashMap<BranchOfficeRole, HashMap<Role, ArrayList<User>>> usersByBranchOffice = users;
+            for (Map.Entry<BranchOfficeRole, HashMap<Role, ArrayList<User>>> branchOfficeEntry : usersByBranchOffice.entrySet()) {
+                BranchOfficeRole branchOfficeRole = branchOfficeEntry.getKey();
+                HashMap<Role, ArrayList<User>> rolesAtBranchOffice = branchOfficeEntry.getValue();
+    
+                if (rolesAtBranchOffice.containsKey(Role.MANAGER)) {
+                    ArrayList<User> branchOfficeManagers = rolesAtBranchOffice.get(Role.MANAGER);
+                    System.out.println("Branch Office managers at the branch " + branchOfficeRole + ":");
+                    for (User manager : branchOfficeManagers) {
+                        try {
+                            System.out.printf("Name: %s %s\n", manager.getFirstName(), manager.getLastName());
+                            System.out.printf("Birthdate: %s\n", manager.getBirthDate().toString());
+                            System.out.printf("City: %s\n", manager.getCity());
+                            System.out.printf("Country: %s\n", manager.getCountry());
+                            System.out.printf("CURP: %s\n", manager.getCurp());
+                            System.out.printf("RFC: %s\n", manager.getRfc());
+                            System.out.printf("Address: %s\n", manager.getAddress());
+                        } catch (Exception e) {
+                            System.out.println("Error retrieving manager details: " + e.getMessage());
+                        }
+                    }
+                } else {
+                    System.out.println("There are no branch managers at the branch " + branchOfficeRole);
                 }
-            } else {
-                System.out.println("There are no branch managers at the branch " + branchOfficeRole);
             }
+        } catch (Exception e) {
+            System.out.println("Error retrieving branch office managers: " + e.getMessage());
         }
     }
 }
