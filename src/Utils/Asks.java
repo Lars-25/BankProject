@@ -6,7 +6,6 @@ public class Asks {
 
     static Scanner sc = new Scanner(System.in);
 
-    //Para respuestas
     public static String forString(String message) {
         System.out.printf("\nEnter %s: ", message);
         String answer = sc.next();

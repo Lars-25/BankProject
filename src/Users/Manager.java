@@ -3,131 +3,74 @@ package Users;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import BankSystem.*;
+import BankSystem.Utils.BranchOfficeRole;
 import Utils.*;
 import Users.Utils.Role;
 import Users.*;
+import Utils.UserInSession;
 import static Utils.Utils.getCommonData;
+import static BankSystem.Bank.users;
+
 
 public class Manager extends Employee {
-    public Manager(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, ActualBranchOffice actualBranchOffice) {
-        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, Role.MANAGER, salary, startDate, actualBranchOffice);
+
+    public Manager(String firstName, String lastName, LocalDate birthDate, String city, String state, String rfc, String curp, String address, String password, BranchOfficeRole branchOfficeRole, String username, double salary, LocalDate startDate) {
+        super(firstName, lastName, birthDate, city, state, rfc, curp, address, password, Role.MANAGER, branchOfficeRole, salary, startDate, username);
     }
 
-    public static void registerClient(){
-        
+    public static void registerManager() {
+        System.out.println("You have selected the option to register a branch manager.");
+        ArrayList<String> commonData = getCommonData(Role.MANAGER);
+
+        String firstName = commonData.get(0);
+        String lastName = commonData.get(1);
+        LocalDate birthDate = LocalDate.parse(commonData.get(2));
+        String city = commonData.get(3);
+        String state = commonData.get(4);
+        String rfc = commonData.get(5);
+        String curp = commonData.get(6);
+        String address = commonData.get(7);
+        String password = commonData.get(8);
+        BranchOfficeRole branchOfficeRole = UserInSession.getActualUser().getBranchOfficeRole();
+        Double salary = getSalary();
+        LocalDate startDate = getStartDate();
+
+        Manager manager = new Manager(firstName, lastName, birthDate, city, state, rfc, curp, address, password, branchOfficeRole, commonData.get(9), salary, startDate);
+
+        if (!users.containsKey(branchOfficeRole)) {
+            users.put(branchOfficeRole, new HashMap<>());
+        }
+        if (!users.get(branchOfficeRole).containsKey(Role.MANAGER)) {
+            users.get(branchOfficeRole).put(Role.MANAGER, new ArrayList<>());
+        }
+
+        users.get(branchOfficeRole).get(Role.MANAGER).add(manager);
     }
 
-    public static void modifyClient(){
-        
-    }
+    public static void showAllManagers() {
+        HashMap<BranchOfficeRole, HashMap<Role, ArrayList<User>>> usersByBranchOffice = users;
+        for (Map.Entry<BranchOfficeRole, HashMap<Role, ArrayList<User>>> branchOfficeEntry : usersByBranchOffice.entrySet()) {
+            BranchOfficeRole branchOfficeRole = branchOfficeEntry.getKey();
+            HashMap<Role, ArrayList<User>> rolesAtBranchOffice = branchOfficeEntry.getValue();
 
-    public static void deleteClient(){
-        
-    }
-
-    public static void searchClient(){
-        
-    }
-
-    public static void showInfoClient(){
-        
-    }
-
-    public static void showInfoAllClients(){
-        
-    }
-
-    public static void registerInvestor(){
-        
-    }
-
-    public static void deleteInvestor(){
-        
-    }
-
-    public static void modifyInvestor(){
-        
-    }
-
-    public static void searchInvestor(){
-        
-    }
-
-    public static void showInfoInvestor(){
-        
-    }
-
-    public static void showInfoAllInvestors(){
-        
-    }
-
-    public static void registerAccountExecutive(){
-        
-    }
-
-    public static void modifyAccountExecutive(){
-        
-    }
-
-    public static void deleteAccountExecutive(){
-        
-    }
-
-    public static void searchAccountExecutive(){
-        
-    }
-
-    public static void showInfoAccountExecutive(){
-        
-    }
-
-    public static void showInfoAllAccountExecutives(){
-        
-    }
-
-    public static void registerCapturist(){
-
-    }
-
-    public static void modifyCapturist(){
-        
-    }
-
-    public static void deleteCapturist(){
-        
-    }
-
-    public static void searchCapturist(){
-        
-    }
-
-    public static void showInfoCapturist(){
-        
-    }
-
-    public static void showInfoAllCapturists(){
-        
-    }
-    
-    public static void viewCapturistMovement(){
-        
-    }
-
-    public static void viewInvestorInvestment() {
-        
-    }
-
-    public static void viewCardRequest(){
-        
-    }
-
-    public static void authorizeCard(){
-        
-    }
-
-    public static void denyCard(){
-        
+            if (rolesAtBranchOffice.containsKey(Role.MANAGER)) {
+                ArrayList<User> branchOfficeManagers = rolesAtBranchOffice.get(Role.MANAGER);
+                System.out.println("Branch Office managers at the branch " + branchOfficeRole + ":");
+                for (User manager : branchOfficeManagers) {
+                    System.out.printf("Name: %s %s\n", manager.getFirstName(), manager.getLastName());
+                    System.out.printf("Birthdate: %s\n", manager.getBirthDate().toString());
+                    System.out.printf("City: %s %s\n", manager.getCity());
+                    System.out.printf("Country: %s %s\n", manager.getCountry());
+                    System.out.printf("CURP: %s %s\n", manager.getCurp());
+                    System.out.printf("RFC: %s %s\n", manager.getRfc());
+                    System.out.printf("Address: %s %s\n", manager.getAddress());
+                }
+            } else {
+                System.out.println("There are no branch managers at the branch " + branchOfficeRole);
+            }
+        }
     }
 }

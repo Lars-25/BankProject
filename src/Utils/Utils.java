@@ -9,6 +9,8 @@ import java.time.LocalDate;
 public class Utils {
     static Scanner scanner = new Scanner(System.in);
 
+    static Random random = new Random();
+
     public static ArrayList<String> getCommonData(Role role){
         ArrayList<String> commonData = new ArrayList<>();
         String maternalLastName = "",password ="", paternalLastName="",firstName="",curp="",user="", city="", country= "", address = "";

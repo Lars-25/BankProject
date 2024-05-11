@@ -2,18 +2,83 @@ package Users;
 
 import java.time.LocalDate;
 import BankSystem.*;
+import BankSystem.Utils.*;
 import Users.Utils.Role;
+import java.time.LocalDate;
+import java.util.InputMismatchException;
+import java.util.Scanner;
 
-public abstract class Employee extends User {
-    private double salary;
-    private LocalDate startDate;
-    private ActualBranchOffice actualBranchOffice;
 
-    public Employee(String firstName, String lastName, LocalDate birthYear, String city, String country, String rfc, String curp, String address, String username, String password, Role role, double salary, LocalDate startDate, ActualBranchOffice actualBranchOffice) {
-        super(firstName, lastName, birthYear, city, country, rfc, curp, address, username, password, role);
+public class Employee extends User {
+    protected double salary;
+    protected LocalDate startDate;
+
+    public Employee(String firstName, String lastName, LocalDate birthDate, String city, String state, String rfc, String curp, String address, String password, Role role, BranchOfficeRole branchOfficeRole, double salary, LocalDate startDate, String username) {
+        super(firstName, lastName, birthDate, city, state, rfc, curp, address, password, role, branchOfficeRole, username);
         this.salary = salary;
         this.startDate = startDate;
-        this.actualBranchOffice = actualBranchOffice;
+    }
+
+    public static LocalDate getStartDate() {
+        Scanner scanner = new Scanner(System.in);
+        int day, month, year;
+        LocalDate startDate;
+        while (true) {
+            try {
+                System.out.println("Enter the start date of employment (day): ");
+                int number = scanner.nextInt();
+
+                if (number >= 1 && number <= 31) {
+                    day = number;
+                    break;
+                } else {
+                    System.out.println("Invalid number. It must be an integer between 01 and 31.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.nextLine();
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("Enter the start date of employment (month): ");
+                int number = scanner.nextInt();
+
+                if (number >= 1 && number <= 12) {
+                    month = number;
+                    break;
+                } else {
+                    System.out.println("Invalid number. It must be an integer between 01 and 12.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.nextLine();
+            }
+        }
+        while (true) {
+            try {
+                System.out.println("Enter the start date of employment (year): ");
+                int number = scanner.nextInt();
+
+                if (number >= 1920 && number <= LocalDate.now().getYear()) {
+                    year = number;
+                    break;
+                } else {
+                    System.out.println("Invalid number. It must be an integer between 1920 and the current year.");
+                }
+            } catch (InputMismatchException e) {
+                System.out.println("Invalid input. Please enter an integer.");
+                scanner.nextLine();
+            }
+        }
+        return startDate = LocalDate.of(year, month, day);
+    }
+
+    public static double getSalary() {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the desired salary for this employee: ");
+        double salary = scanner.nextDouble();
+        return salary;
     }
 
 }

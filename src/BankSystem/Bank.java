@@ -25,6 +25,8 @@ public class Bank {
         this.funds = funds;
     }
 
+    public Bank(){}
+
     public static HashMap<BranchOfficeRole, HashMap<Role, ArrayList<User>> > users = new HashMap<>();
 
     public static ArrayList<Long> numCards  = new ArrayList<>();
@@ -52,49 +54,50 @@ public class Bank {
         return numCards;
     }
 
-    public void addClient(){
-        AccountExecutive.registerClient();
+    public void addClient() {
+        Client.registerClient();
     }
-
-    public void addInvestor(){
-        Investor.registrarInversionista();
+    
+    public void addInvestor() {
+        Investor.registerInvestor();
     }
-
-    public void agregarGerente(){
-        GerenteDeSucursal.registrarGerente();
+    
+    public void addManager() {
+        Manager.registerManager();
     }
-
-    public void agregarEjecutivo(){
-        EjecutivoDeCuenta.registrarEjecutivo();
+    
+    public void addAccountExecutive() {
+        AccountExecutive.registerAccountExecutive();
     }
-
-    public void agregarCapturista(){
-        Capturista.registrarCapturista();
+    
+    public void addCapturist() {
+        Capturist.registerCapturist();
     }
-
-    public void mostrarAllUsuarios(){
-        Usuario.mostrarAllUsuarios();
+    
+    public void showAllUsers() {
+        User.showAllUsers();
     }
-
-    public void mostrarAllClientes(){
-        Cliente.mostrarAllClientes();
+    
+    public void showInfoAllClients() {
+        Client.showInfoAllClients();
     }
-
-    public void mosttrarAllCapturistas(){
-        Capturista.mostrarAllCapturista();
+    
+    public void showinfoAllCapturist() {
+        Capturist.showInfoAllCapturists();
     }
-
-    public void mostrarAllEjecutivos(){
-        EjecutivoDeCuenta.mostrarAllEjecutivoDeCuenta();
+    
+    public void showAllAccountExecutives() {
+        AccountExecutive.showInfoAllAccountExecutives();
     }
-
-    public void mostrarAllInversionistas(){
-        Inversionista.mostrarAllInversionistas();
+    
+    public void showInfoAllInvestors() {
+        Investor.showInfoAllInvestors();
     }
-
-    public void mostrarAllGerentes(){
-        GerenteDeSucursal.mostrarAllGerenteDeSucursal();
+    
+    public void showInfoAllManagers() {
+        Manager.showAllManagers();
     }
+    
 
 
 }

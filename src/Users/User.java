@@ -2,16 +2,29 @@ package Users;
 
 import java.time.LocalDate;
 import java.util.Scanner;
+
+import BankSystem.Utils.BranchOfficeRole;
 import Users.Utils.Role;
 import Utils.Utils.*;
 import Utils.*;
 
 public class User {
-    private String firstName, lastName, username, password, city, country, rfc, curp, address;
-    private Role role;
-    private LocalDate birthDate;
-    
-    public User(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc, String curp, String address, String username, String password, Role role) {
+    protected String firstName;
+    protected String lastName;
+    protected LocalDate birthDate;
+    protected String city;
+    protected String country;
+    protected String rfc;
+    protected String curp;
+    protected String address;
+    protected String password;
+    protected String username;
+    protected Role role;
+    protected BranchOfficeRole branchOfficeRole;
+
+    public User(String firstName, String lastName, LocalDate birthDate, String city, String country, String rfc,
+            String curp, String address, String password, Role role, BranchOfficeRole branchOfficeRole,
+            String username) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.birthDate = birthDate;
@@ -23,6 +36,23 @@ public class User {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.branchOfficeRole = branchOfficeRole;
+    }
+
+    public static void showAllUsers(){
+        try {
+            System.out.println("******** Clients ********");
+        Client.showInfoAllClients();
+        System.out.println("\n******** Investors ********");
+        Investor.showInfoAllInvestors();
+        System.out.println("\n******** Ejecutivos de cuenta ********");
+        AccountExecutive.showInfoAllAccountExecutives();
+        System.out.println("\n******** Capturistas ********");
+        Capturist.showInfoAllCapturists();
+        } catch (Exception e) {
+            System.out.println("There is no users");
+        }
+        
     }
 
 
@@ -172,8 +202,8 @@ public class User {
         return role;
     }
 
-    
-
-    
+    public BranchOfficeRole getBranchOfficeRole(){
+        return branchOfficeRole;
+    }
     
 }

@@ -14,7 +14,7 @@ public class DebitCard extends Card {
         this.balance = 0;
     }
 
-    public void mostrarTarjeta(){
+    public void showCard(){
         System.out.println("Type: "+ super.type);
         System.out.println("Card Number: "+ super.cardNumber);
         System.out.println("Date of creation: "+ super.creationDate);
@@ -25,7 +25,7 @@ public class DebitCard extends Card {
         System.out.println("Date of last movement: "+ super.dateLastMovement);
     }
 
-    public void withdraw(double amount) {
+    public void withdrawMoney(double amount) {
         if (this.balance >= amount) {
             this.balance -= amount;
             super.dateLastMovement = LocalDateTime.now();
@@ -35,7 +35,7 @@ public class DebitCard extends Card {
         }
     }
 
-    public void deposit(double amount) {
+    public void depositMoney(double amount) {
         this.balance += amount;
         super.dateLastMovement = LocalDateTime.now();
         System.out.println("Deposited: " + amount);
