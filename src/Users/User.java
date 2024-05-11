@@ -40,19 +40,14 @@ public class User {
     }
 
     public static void showAllUsers(){
-        try {
-            System.out.println("******** Clients ********");
+        System.out.println("******** Clients ********");
         Client.showInfoAllClients();
         System.out.println("\n******** Investors ********");
         Investor.showInfoAllInvestors();
         System.out.println("\n******** Ejecutivos de cuenta ********");
         AccountExecutive.showInfoAllAccountExecutives();
         System.out.println("\n******** Capturistas ********");
-        Capturist.showInfoAllCapturists();
-        } catch (Exception e) {
-            System.out.println("There is no users");
-        }
-        
+        Capturist.showInfoAllCapturists();        
     }
 
 

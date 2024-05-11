@@ -213,7 +213,8 @@ public class Menu {
                     managerMenuCapturist();
                     break;
                 case "5":
-                    boolean bandp = false;
+                    try {
+                        boolean bandp = false;
                     for (User user : users) {
                         Client client = (Client) user;
                         for (RequestCard request : client.getCardRequests()) {
@@ -282,18 +283,31 @@ public class Menu {
                             System.out.println("Invalid option");
                         }
                     }
+                    } catch (Exception e) {
+                        System.out.println("There is no users request");
+                    }
+                    
                     break;
                 case "6":
-                    for (User user : users) {
-                        Client client = (Client) user;
-                        client.getDebitCard().showCard();
-                        for (CreditCard credit : client.getCreditCards()) {
-                            credit.showCard();
+                    try {
+                        for (User user : users) {
+                            Client client = (Client) user;
+                            client.getDebitCard().showCard();
+                            for (CreditCard credit : client.getCreditCards()) {
+                                credit.showCard();
+                            }
                         }
+                    } catch (Exception e) {
+                        System.out.println("There is no users");
                     }
                     break;
                 case "7":
+                try {
                     User.showAllUsers();                    
+                } catch (Exception e) {
+                    System.out.println("There is no users");
+                }
+
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
@@ -311,12 +325,17 @@ public class Menu {
         String option = "";
         Scanner scanner = new Scanner(System.in);
         do {
-            System.out.println("1 - Provide money to the bank");
+            System.out.println("1 - Make investment to the bank");
             System.out.println("E - Log out");
             option = scanner.nextLine();
             switch (option) {
                 case "1":
+                try {
                     Investor.makeInvestment();
+                    
+                } catch (Exception e) {
+                    System.out.println("There is no Investors");
+                }
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
@@ -349,51 +368,64 @@ public class Menu {
                 case "2":
                     boolean bandc = true;
                     User finalUser = null;
-                    while (bandc) {
-                        for (User user : users) {
-                            System.out.println(user.getUsername());
-                        }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                finalUser = user;
-                                bandc = false;
-                                break;
+                    try {
+                        while (bandc) {
+                            for (User user : users) {
+                                System.out.println(user.getUsername());
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    finalUser = user;
+                                    bandc = false;
+                                    break;
+                                }
+                            }
+                            if (bandc) {
+                                System.out.println("User entered not found");
                             }
                         }
-                        if (bandc) {
-                            System.out.println("User entered not found");
-                        }
+                        AccountExecutive.updateInformation(finalUser);
+                    } catch (Exception e) {
+                        System.out.println("No account executives registered");
                     }
-                    AccountExecutive.updateInformation(finalUser);
                     break;
                 case "3":
                     boolean bandp = true;
-                    if (users.isEmpty()) {
-                        System.out.println("No capturists registered");
-                        break;
-                    }
-                    while (bandp) {
-                        for (User user : users) {
-                            System.out.println(user.getUsername());
+                    try {
+                        if (users.isEmpty()) {
+                            System.out.println("No capturists registered");
+                            break;
                         }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE).remove(user);
-                                bandp = false;
-                                break;
+                        while (bandp) {
+                            for (User user : users) {
+                                System.out.println(user.getUsername());
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE).remove(user);
+                                    bandp = false;
+                                    break;
+                                }
+                            }
+                            if (bandp) {
+                                System.out.println("User entered not found");
                             }
                         }
-                        if (bandp) {
-                            System.out.println("User entered not found");
-                        }
+                    } catch (Exception e) {
+                        System.out.println("No account executives registered");
                     }
                     break;
                 case "4":
+                try {
                     AccountExecutive.showInfoAllAccountExecutives();
+                } catch (Exception e) {
+                    System.out.println("No account executives registered");
+                }
+                    
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
@@ -426,101 +458,118 @@ public class Menu {
                 case "2":
                     boolean bandc = true;
                     User finalUser = null;
-                    while (bandc) {
-                        for (User user : users) {
-                            System.out.println(user.getUsername());
-                        }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                finalUser = user;
-                                bandc = false;
-                                break;
+                    try {
+                        while (bandc) {
+                            for (User user : users) {
+                                System.out.println(user.getUsername());
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    finalUser = user;
+                                    bandc = false;
+                                    break;
+                                }
+                            }
+                            if (bandc) {
+                                System.out.println("User entered not found");
                             }
                         }
-                        if (bandc) {
-                            System.out.println("User entered not found");
-                        }
+                        Client.updateInformation(finalUser);
+                    } catch (Exception e) {
+                        System.out.println("No clients registered");
                     }
-                    Client.updateInformation(finalUser);
                     break;
                 case "3":
                     boolean bandp = true;
-                    if (users.isEmpty()) {
-                        System.out.println("No clients registered");
-                        break;
-                    }
-                    while (bandp) {
-                        for (User user : users) {
-                            System.out.println(user.getUsername());
+                    try {
+                        if (users.isEmpty()) {
+                            System.out.println("No clients registered");
+                            break;
                         }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT).remove(user);
-                                bandp = false;
-                                break;
+                        while (bandp) {
+                            for (User user : users) {
+                                System.out.println(user.getUsername());
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT).remove(user);
+                                    bandp = false;
+                                    break;
+                                }
+                            }
+                            if (bandp) {
+                                System.out.println("User entered not found");
                             }
                         }
-                        if (bandp) {
-                            System.out.println("User entered not found");
-                        }
+                    } catch (Exception e) {
+                        System.out.println("No clients registered");
                     }
                     break;
                 case "4":
                     boolean bandv = true;
                     Client finalClient = null;
                     int requestIndex = 0;
-                    for (User user : users) {
-                        Client client = (Client) user;
-                        client.viewCreditCardRequests();
-                    }
-                    while (bandv) {
-                        System.out.println("Enter the username: ");
-                        String username = scanner.nextLine();
+                    try {
                         for (User user : users) {
-                            if (user.getUsername().equals(username)) {
-                                finalClient = (Client) user;
-                                bandv = false;
+                            Client client = (Client) user;
+                            client.viewCreditCardRequests();
+                        }
+                        while (bandv) {
+                            System.out.println("Enter the username: ");
+                            String username = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(username)) {
+                                    finalClient = (Client) user;
+                                    bandv = false;
+                                    break;
+                                }
+                            }
+                            if (bandv) {
+                                System.out.println("User entered not found");
+                            }
+                        }
+                        while (true) {
+                            try {
+                                System.out.println("Enter the request number: ");
+                                requestIndex = scanner.nextInt();
+                            } catch (InputMismatchException e) {
+                                System.out.println("You must enter an integer");
+                            }
+                            if (requestIndex < 0 || requestIndex >= users.size()) {
+                                System.out.println("Invalid index");
+                            } else {
                                 break;
                             }
                         }
-                        if (bandv) {
-                            System.out.println("User entered not found");
+                        scanner.nextLine();
+                        while (true) {
+                            System.out.println("What do you want to do with the request: [A] Approve [R] Reject");
+                            option = scanner.nextLine();
+                            if (option.equals("A")) {
+                                finalClient.getCardRequests().get(requestIndex).approveRequest();
+                                break;
+                            } else if (option.equals("R")) {
+                                finalClient.getCardRequests().get(requestIndex).rejectRequest();
+                                break;
+                            } else {
+                                System.out.println("Invalid option");
+                            }
                         }
-                    }
-                    while (true) {
-                        try {
-                            System.out.println("Enter the request number: ");
-                            requestIndex = scanner.nextInt();
-                        } catch (InputMismatchException e) {
-                            System.out.println("You must enter an integer");
-                        }
-                        if (requestIndex < 0 || requestIndex >= users.size()) {
-                            System.out.println("Invalid index");
-                        } else {
-                            break;
-                        }
-                    }
-                    scanner.nextLine();
-                    while (true) {
-                        System.out.println("What do you want to do with the request: [A] Approve [R] Reject");
-                        option = scanner.nextLine();
-                        if (option.equals("A")) {
-                            finalClient.getCardRequests().get(requestIndex).approveRequest();
-                            break;
-                        } else if (option.equals("R")) {
-                            finalClient.getCardRequests().get(requestIndex).rejectRequest();
-                            break;
-                        } else {
-                            System.out.println("Invalid option");
-                        }
+                    } catch (Exception e) {
+                        System.out.println("No clients registered");
                     }
                     break;
                 case "5":
+                try {
                     Client.showInfoAllClients();
+                    
+                } catch (Exception e) {
+                    System.out.println("No clients registered");
+                }
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
@@ -554,51 +603,64 @@ public class Menu {
                 case "2":
                     boolean bandc = true;
                     User finalUser = null;
-                    while (bandc) {
-                        for (User user : users) {
-                            System.out.println(user.getUsername());
-                        }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                finalUser = user;
-                                bandc = false;
-                                break;
+                    try {
+                        while (bandc) {
+                            for (User user : users) {
+                                System.out.println(user.getUsername());
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    finalUser = user;
+                                    bandc = false;
+                                    break;
+                                }
+                            }
+                            if (bandc) {
+                                System.out.println("User entered not found");
                             }
                         }
-                        if (bandc) {
-                            System.out.println("User entered not found");
-                        }
+                        Capturist.updateInformation(finalUser);
+                    } catch (Exception e) {
+                        System.out.println("No capturist registered");
                     }
-                    Capturist.updateInformation(finalUser);
                     break;
                 case "3":
                     bandc = true;
-                    if (users.isEmpty()) {
-                        System.out.println("No capturists registered");
-                        break;
-                    }
-                    while (bandc) {
-                        for (User user : users) {
-                            System.out.println(user.getUsername());
+                    try {
+                        if (users.isEmpty()) {
+                            System.out.println("No capturists registered");
+                            break;
                         }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CAPTURIST).remove(user);
-                                bandc = false;
-                                break;
+                        while (bandc) {
+                            for (User user : users) {
+                                System.out.println(user.getUsername());
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CAPTURIST).remove(user);
+                                    bandc = false;
+                                    break;
+                                }
+                            }
+                            if (bandc) {
+                                System.out.println("User entered not found");
                             }
                         }
-                        if (bandc) {
-                            System.out.println("User entered not found");
-                        }
+                    } catch (Exception e) {
+                        System.out.println("No capturist registered");
                     }
                     break;
                 case "4":
+                try {
                     Capturist.showInfoAllCapturists();
+                    
+                } catch (Exception e) {
+                    System.out.println("No capturist registered");
+                }
                     break;
                 case "E":
                     executeManagerMenu();
@@ -635,66 +697,78 @@ public class Menu {
                     break;
                 case "2":
                     band = managerPassword();
-                    if (band) {
-                        bandc = true;
-                        User finalUser = null;
-                        while (bandc) {
-                            for (User user : users) {
-                                System.out.println(user.getUsername());
-                            }
-                            System.out.println("Enter the username: ");
-                            String name = scanner.nextLine();
-                            for (User user : users) {
-                                if (user.getUsername().equals(name)) {
-                                    finalUser = user;
-                                    bandc = false;
-                                    break;
+                    try {
+                        if (band) {
+                            bandc = true;
+                            User finalUser = null;
+                            while (bandc) {
+                                for (User user : users) {
+                                    System.out.println(user.getUsername());
+                                }
+                                System.out.println("Enter the username: ");
+                                String name = scanner.nextLine();
+                                for (User user : users) {
+                                    if (user.getUsername().equals(name)) {
+                                        finalUser = user;
+                                        bandc = false;
+                                        break;
+                                    }
+                                }
+                                if (bandc) {
+                                    System.out.println("User entered not found");
                                 }
                             }
-                            if (bandc) {
-                                System.out.println("User entered not found");
-                            }
+                            Investor.updateInformation(finalUser);
+                        } else {
+                            System.out.println("Incorrect password, sending you back to the menu.");
                         }
-                        Investor.updateInformation(finalUser);
-                    } else {
-                        System.out.println("Incorrect password, sending you back to the menu.");
+                    } catch (Exception e) {
+                        System.out.println("No investors registered");
                     }
                     break;
                 case "3":
                     band = managerPassword();
-                    if (band) {
-                        bandc = true;
-                        if (users.isEmpty()) {
-                            System.out.println("No investors registered");
-                            break;
-                        }
-                        while (bandc) {
-                            for (User user : users) {
-                                System.out.println(user.getUsername());
+                    try {
+                        if (band) {
+                            bandc = true;
+                            if (users.isEmpty()) {
+                                System.out.println("No investors registered");
+                                break;
                             }
-                            System.out.println("Enter the username: ");
-                            String name = scanner.nextLine();
-                            for (User user : users) {
-                                if (user.getUsername().equals(name)) {
-                                    Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.INVESTOR).remove(user);
-                                    bandc = false;
-                                    break;
+                            while (bandc) {
+                                for (User user : users) {
+                                    System.out.println(user.getUsername());
+                                }
+                                System.out.println("Enter the username: ");
+                                String name = scanner.nextLine();
+                                for (User user : users) {
+                                    if (user.getUsername().equals(name)) {
+                                        Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.INVESTOR).remove(user);
+                                        bandc = false;
+                                        break;
+                                    }
+                                }
+                                if (bandc) {
+                                    System.out.println("User entered not found");
                                 }
                             }
-                            if (bandc) {
-                                System.out.println("User entered not found");
-                            }
+                        } else {
+                            System.out.println("Incorrect password, sending you back to the menu.");
                         }
-                    } else {
-                        System.out.println("Incorrect password, sending you back to the menu.");
+                    } catch (Exception e) {
+                        System.out.println("No investors registered");
                     }
                     break;
                 case "4":
                     band = managerPassword();
-                    if (band) {
-                        Investor.showInfoAllInvestors();
-                    } else {
-                        System.out.println("Incorrect password, sending you back to the menu.");
+                    try {
+                        if (band) {
+                            Investor.showInfoAllInvestors();
+                        } else {
+                            System.out.println("Incorrect password, sending you back to the menu.");
+                        }
+                    } catch (Exception e) {
+                        System.out.println("No investors registered");
                     }
                     break;
                 case "E":
@@ -856,35 +930,40 @@ public class Menu {
                     break;
                 case "3":
                     bandc = true;
-                    if (users.isEmpty()) {
+                    try {
+                        if (users.isEmpty()) {
+                            System.out.println("No clients registered");
+                            break;
+                        }
+                        while (bandc) {
+                            for (User user : users) {
+                                if (user.getBranchOfficeRole().equals(UserInSession.getActualUser().getBranchOfficeRole())) {
+                                    System.out.println(user.getUsername());
+                                }
+                            }
+                            System.out.println("Enter the username: ");
+                            String name = scanner.nextLine();
+                            for (User user : users) {
+                                if (user.getUsername().equals(name)) {
+                                    Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT).remove(user);
+                                    System.out.println("Client correctly removed.");
+                                    bandc = false;
+                                    break;
+                                }
+                            }
+                            if (bandc) {
+                                System.out.println("User entered not found");
+                            }
+                        }
+                    } catch (Exception e) {
                         System.out.println("No clients registered");
-                        break;
-                    }
-                    while (bandc) {
-                        for (User user : users) {
-                            if (user.getBranchOfficeRole().equals(UserInSession.getActualUser().getBranchOfficeRole())) {
-                                System.out.println(user.getUsername());
-                            }
-                        }
-                        System.out.println("Enter the username: ");
-                        String name = scanner.nextLine();
-                        for (User user : users) {
-                            if (user.getUsername().equals(name)) {
-                                Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT).remove(user);
-                                System.out.println("Client correctly removed.");
-                                bandc = false;
-                                break;
-                            }
-                        }
-                        if (bandc) {
-                            System.out.println("User entered not found");
-                        }
                     }
                     break;
                 case "4":
                 try {
                     Client.showInfoAllClients();
                 } catch (Exception e) {
+                    System.out.println("No clients registered");
                 }
                     break;
                 case "E":
