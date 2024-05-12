@@ -58,8 +58,79 @@ public class Client extends User {
         System.out.println(client.getUsername() + " " + client.getPassword());
     }
 
+    public static void updateClientInformation(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No clients registered");
+            return;
+        }
+
+        boolean found = false;
+        while (!found) {
+            System.out.println("Available clients:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting client update process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    updateInformation(user);
+                    System.out.println("Client information successfully updated.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+    }
+
+
+    public static void deleteClient(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No Clients registered");
+            return;
+        }
+
+        boolean found = false;
+        while (!found) {
+            System.out.println("Available clients:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting client removal process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    users.remove(user);
+                    System.out.println("Client correctly removed.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+    }
+
     public static void showInfoAllClients() {
-        try {
             ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
             String branchOffice = UserInSession.getActualUser().getBranchOfficeRole().name();
             if (users.isEmpty()) {
@@ -67,7 +138,6 @@ public class Client extends User {
             } else {
                 System.out.println("Clients in the branch " + branchOffice + ":");
                 for (User user : users) {
-                    try {
                         Client client = (Client) user;
                         System.out.printf("Username: %s\n", client.getUsername());
                         System.out.printf("Name: %s %s\n", client.getFirstName(), client.getLastName());
@@ -78,14 +148,8 @@ public class Client extends User {
                         System.out.printf("RFC: %s\n", client.getRfc());
                         System.out.printf("Address: %s\n", client.getAddress());
                         client.showCards();
-                    } catch (Exception e) {
-                        System.out.println("Error retrieving client details: " + e.getMessage());
-                    }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Error retrieving clients information: " + e.getMessage());
-        }
     }
     
 
@@ -94,7 +158,7 @@ public class Client extends User {
     }
 
     public void showCards() {
-        System.out.println("Financial Information:\n");
+        System.out.println("Financial Information:");
         this.debitCard.showCard();
         for (CreditCard credit : creditCards) {
             System.out.println("");

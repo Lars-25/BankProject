@@ -58,6 +58,8 @@ public class User {
         Scanner scanner = new Scanner(System.in);
         String option = "";
         Role role = user.getRole();
+        boolean continueEditing = true; // Control loop continuation
+
         do {
             System.out.println("What do you want to change for the selected user?");
             System.out.println("1. City of residence");
@@ -65,9 +67,9 @@ public class User {
             System.out.println("3. Address");
             System.out.println("4. Password");
             System.out.println("5. Username");
-            System.out.println("6. Exit");
+            System.out.println("E. Exit");
             option = scanner.nextLine();
-    
+
             try {
                 switch (option) {
                     case "1" -> {
@@ -112,21 +114,17 @@ public class User {
                             }
                         }
                     }
-                    case "6" -> {
+                    case "E" -> {
                         System.out.println("Exiting");
-                        break;
+                        continueEditing = false;
                     }
                     default -> System.out.println("Invalid Option");
                 }
             } catch (Exception e) {
                 System.out.println("Error: " + e.getMessage());
             }
-        } while (true);
+        } while (continueEditing);
     }
-
-
-
-
 
     public String getFirstName() {
         return firstName;

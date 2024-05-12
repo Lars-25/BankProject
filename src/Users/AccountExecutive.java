@@ -10,9 +10,11 @@ import Users.Utils.Role;
 import Users.*;
 import BankSystem.Utils.*;
 import Utils.UserInSession;
+import java.util.*;
 
 import static BankSystem.Bank.users;
 import static Utils.Utils.getCommonData;
+
 
 public class AccountExecutive extends Employee {
 
@@ -49,8 +51,81 @@ public class AccountExecutive extends Employee {
         users.get(branchOffice).get(Role.ACCOUNT_EXECUTIVE).add(accountExecutive);
     }
 
+    public static void updateAccountExecutiveInformation(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No account executives registered to update.");
+            return;
+        }
+
+        boolean found = false;
+        while (!found) {
+            System.out.println("Available account executives:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting account executive update process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    updateInformation(user);
+                    System.out.println("Account executive information successfully updated.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+    }
+
+    public static void deleteAccountExecutive(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No account executives registered to delete.");
+            return;
+        }
+
+        boolean found = false;
+        while (!found) {
+            System.out.println("Available account executives:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting account executive removal process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    users.remove(user);
+                    System.out.println("Account executive correctly removed.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+    }
+
+
+
     public static void showInfoAllAccountExecutives() {
-        try {
             ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE);
             String branchOffice = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
             if (users.isEmpty()) {
@@ -58,7 +133,6 @@ public class AccountExecutive extends Employee {
             } else {
                 System.out.println("Account executives at the branch " + branchOffice + ":");
                 for (User user : users) {
-                    try {
                         AccountExecutive accountExecutive = (AccountExecutive) user;
                         System.out.printf("Name: %s %s\n", accountExecutive.getFirstName(), accountExecutive.getLastName());
                         System.out.printf("Birthdate: %s\n", accountExecutive.getBirthDate().toString());
@@ -67,14 +141,8 @@ public class AccountExecutive extends Employee {
                         System.out.printf("CURP: %s\n", accountExecutive.getCurp());
                         System.out.printf("RFC: %s\n", accountExecutive.getRfc());
                         System.out.printf("Address: %s\n", accountExecutive.getAddress());
-                    } catch (Exception e) {
-                        System.out.println("Error retrieving account executive details: " + e.getMessage());
-                    }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Error retrieving account executives information: " + e.getMessage());
-        }
     }
 
 }

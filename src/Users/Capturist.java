@@ -3,6 +3,7 @@ package Users;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.*;
 
 import BankSystem.*;
 import BankSystem.Utils.BranchOfficeRole;
@@ -48,8 +49,88 @@ public class Capturist extends Employee {
         users.get(branchOfficeRole).get(Role.CAPTURIST).add(capturist);
     }
 
+    public static void updateCapturistInformation(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No capturists registered to update.");
+            return;
+        }
+
+        boolean found = false;
+        User finalUser = null;
+        while (!found) {
+            System.out.println("Available capturists:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting capturist update process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    finalUser = user;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+
+        if (finalUser != null) {
+            try {
+                Capturist.updateInformation(finalUser);
+                System.out.println("Capturist information successfully updated.");
+            } catch (Exception e) {
+                System.out.println("Error updating capturist: " + e.getMessage());
+            }
+        }
+    }
+
+    public static void deleteCapturist(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No capturists registered to delete.");
+            return;
+        }
+
+        boolean found = false;
+        while (!found) {
+            System.out.println("Available capturists:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting capturist removal process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    users.remove(user);
+                    System.out.println("Capturist correctly removed.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+    }
+
+
+
     public static void showInfoAllCapturists() {
-        try {
             ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.CAPTURIST);
             String branchOfficeRole = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
             if (users.isEmpty()) {
@@ -57,7 +138,6 @@ public class Capturist extends Employee {
             } else {
                 System.out.println("Capturists in the branch " + branchOfficeRole + ":");
                 for (User user : users) {
-                    try {
                         Capturist capturist = (Capturist) user;
                         System.out.printf("Name: %s %s\n", capturist.getFirstName(), capturist.getLastName());
                         System.out.printf("Birthdate: %s\n", capturist.getBirthDate().toString());
@@ -66,14 +146,8 @@ public class Capturist extends Employee {
                         System.out.printf("CURP: %s\n", capturist.getCurp());
                         System.out.printf("RFC: %s\n", capturist.getRfc());
                         System.out.printf("Address: %s\n", capturist.getAddress());
-                    } catch (Exception e) {
-                        System.out.println("Error retrieving capturist details: " + e.getMessage());
-                    }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Error retrieving capturists: " + e.getMessage());
-        }
     }
     
 }

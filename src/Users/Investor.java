@@ -9,6 +9,7 @@ import java.time.LocalDate;
 import java.util.*;
 
 import static BankSystem.Bank.users;
+import static BankSystem.Menu.managerPassword;
 import static Utils.Utils.getCommonData;
 
 public class Investor extends User {
@@ -47,8 +48,99 @@ public class Investor extends User {
         users.get(branchOffice).get(Role.INVESTOR).add(investor);
     }
 
+    public static void updateInvestorInformation(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No investors registered");
+            return;
+        }
+        boolean managerAuthorized = managerPassword();
+        if (!managerAuthorized) {
+            System.out.println("Incorrect manager password.");
+            return;
+        }
+
+        boolean found = false;
+        User finalUser = null;
+        while (!found) {
+            System.out.println("Available investors:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting investor update process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    finalUser = user;
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+
+        if (finalUser != null) {
+            try {
+                Investor.updateInformation(finalUser);
+                System.out.println("Investor information successfully updated.");
+            } catch (Exception e) {
+                System.out.println("Error updating investor: " + e.getMessage());
+            }
+        }
+    }
+
+    public static void deleteInvestor(ArrayList<User> users, Scanner scanner) {
+        if (users == null || users.isEmpty()) {
+            System.out.println("No investors registered to delete.");
+            return;
+        }
+
+        boolean managerAuthorized = managerPassword();
+        if (!managerAuthorized) {
+            System.out.println("Incorrect manager password.");
+            return;
+        }
+
+        boolean found = false;
+        while (!found) {
+            System.out.println("Available investors:");
+            for (User user : users) {
+                System.out.println(user.getUsername());
+            }
+            System.out.println("Enter the username (or type 'exit' to return):");
+            String name = scanner.nextLine();
+
+            if ("exit".equalsIgnoreCase(name)) {
+                System.out.println("Exiting investor removal process.");
+                break;
+            }
+
+            for (User user : users) {
+                if (user.getUsername().equals(name)) {
+                    users.remove(user);
+                    System.out.println("Investor correctly removed.");
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("User entered not found. Try again or type 'exit' to return.");
+            }
+        }
+    }
+
+
+
     public static void showInfoAllInvestors() {
-        try {
             ArrayList<User> users = Bank.users.get(UserInSession.getInstance().getActualUser().getBranchOfficeRole()).get(Role.INVESTOR);
             String branchOffice = UserInSession.getInstance().getActualUser().getBranchOfficeRole().name();
             if (users.isEmpty()) {
@@ -56,7 +148,6 @@ public class Investor extends User {
             } else {
                 System.out.println("Investors at the Branch Office " + branchOffice + ":");
                 for (User user : users) {
-                    try {
                         Investor investor = (Investor) user;
                         System.out.printf("Name: %s %s\n", investor.getFirstName(), investor.getLastName());
                         System.out.printf("Birthdate: %s\n", investor.getBirthDate().toString());
@@ -65,14 +156,8 @@ public class Investor extends User {
                         System.out.printf("CURP: %s\n", investor.getCurp());
                         System.out.printf("RFC: %s\n", investor.getRfc());
                         System.out.printf("Address: %s\n", investor.getAddress());
-                    } catch (Exception e) {
-                        System.out.println("Error retrieving investor details: " + e.getMessage());
-                    }
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Error retrieving investors information: " + e.getMessage());
-        }
     }
     
 
