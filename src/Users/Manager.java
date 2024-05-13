@@ -76,4 +76,9 @@ public class Manager extends Employee {
                 }
             }
     }
+
+    @Override
+    public void showPersonalInfo() {
+        super.showPersonalInfo();
+    }
 }

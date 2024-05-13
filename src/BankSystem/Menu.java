@@ -182,12 +182,13 @@ public class Menu {
     private static void executeManagerMenu() {
         String option = "";
         Scanner scanner = new Scanner(System.in);
+        Manager manager = (Manager) UserInSession.getActualUser();
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
         System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + " you are in the manager menu.");
 
         do {
             System.out.println("-----------------------------------");
-            System.out.println("1 - Client options");
+            System.out.println("1 - Show personal information");
             System.out.println("2 - Client options");
             System.out.println("3 - Account executive options");
             System.out.println("4 - Investor options");
@@ -199,7 +200,7 @@ public class Menu {
 
             switch (option) {
                 case "1":
-                    Manager.showInfoAllManagers();
+                    manager.showPersonalInfo();
                     break;
                 case "2":
                     managerMenuClient();
