@@ -145,4 +145,9 @@ public class AccountExecutive extends Employee {
             }
     }
 
+    @Override
+    public void showPersonalInfo() {
+        super.showPersonalInfo();
+    }
+
 }

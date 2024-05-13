@@ -26,12 +26,10 @@ public class DebitCard extends Card {
     }
 
     public void withdrawMoney(double amount) {
-        if (this.balance >= amount) {
+        if (amount > 0) {
             this.balance -= amount;
             super.dateLastMovement = LocalDateTime.now();
             System.out.println("Withdrawn " + amount);
-        } else {
-            System.out.println("Insufficient balance.");
         }
     }
 

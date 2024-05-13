@@ -95,7 +95,7 @@ public class Bank {
     }
     
     public void showInfoAllManagers() {
-        Manager.showAllManagers();
+        Manager.showInfoAllManagers();
     }
     
 

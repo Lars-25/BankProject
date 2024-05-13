@@ -20,7 +20,7 @@ public class RequestCard {
         this.client = client;
         this.type = type;
         this.balance = client.getDebitCard().getBalance();
-        this.status = "In procces";
+        this.status = "In process";
         this.date = LocalDate.now();
         this.branchOfficeRole = client.getBranchOfficeRole();
 
@@ -38,7 +38,7 @@ public class RequestCard {
 
     public void showRequest() {
         System.out.println("Applicant's username: " + client.getUsername());
-        System.out.println("Applicant's name: " + client.getFirstName() + " " + client.getLastName());
+        System.out.println("Applicant's full name: " + client.getFirstName() + " " + client.getLastName());
         System.out.println("Status: " + status);
         System.out.println("Balance on debit: $" + balance);
         System.out.println("Type of card requested: " + type);

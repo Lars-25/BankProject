@@ -15,7 +15,6 @@ public class CreditCard extends Card {
     public CreditCard(String firstName, String lastName, String type) {
         super(firstName, lastName, type);
 
-        
         if (type.equals("Simplicity")) {
             this.maxCredit = 60000;
             this.credit = 60000;
@@ -28,14 +27,6 @@ public class CreditCard extends Card {
             this.maxCredit = 400000;
             this.credit = 400000;
         }
-    }
-
-    public double getCredit() {
-        return this.credit;
-    }
-
-    public void setCredito(double credit) {
-        this.credit = credit;
     }
 
     public void showCard(){
@@ -64,12 +55,19 @@ public class CreditCard extends Card {
         if (client.getDebitCard().getBalance() - (maxCredit - this.credit) >= 0){
             client.getDebitCard().withdrawMoney(maxCredit - this.credit);
             this.credit = maxCredit;
+            super.dateLastMovement = LocalDateTime.now();
         }
         else{
             System.out.println("Insufficient balance on debit card");
         }
+    }
 
-        super.dateLastMovement = LocalDateTime.now();
+    public double getCredit() {
+        return this.credit;
+    }
+
+    public void setCredito(double credit) {
+        this.credit = credit;
     }
 
     @Override

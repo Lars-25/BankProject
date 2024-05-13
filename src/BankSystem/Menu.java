@@ -63,15 +63,15 @@ public class Menu {
         Client client = (Client) UserInSession.getActualUser();
         System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + ", you are in the client menu.");
         do {
-            System.out.println("-------------------------------");
+            System.out.println("-----------------------------------");
             System.out.println("Please select an option: ");
-            System.out.println("1 - Show card details");
-            System.out.println("2 - Deposit money");
-            System.out.println("3 - Withdraw money");
-            System.out.println("4 - Pay with credit card");
-            System.out.println("5 - Pay credit card bill");
-            System.out.println("6 - List cards");
-            System.out.println("7 - Create Request");
+            System.out.println("1 - Show personal information");
+            System.out.println("2 - Show card details");
+            System.out.println("3 - Deposit money");
+            System.out.println("4 - Withdraw money");
+            System.out.println("5 - Pay with credit card");
+            System.out.println("6 - Pay credit card");
+            System.out.println("7- Create Request");
             if (!client.getCardRequests().isEmpty()){
                 System.out.println("8 - View Requests");
             }
@@ -79,14 +79,20 @@ public class Menu {
             option = scanner.nextLine();
             switch (option) {
                 case "1":
+                    client.showPersonalInfo();
+                case "2":
                     System.out.println("****** Debit Card ******");
                     client.getDebitCard().showCard();
                     System.out.println("****** Credit Card ******");
-                    for (CreditCard credit : client.getCreditCards()){
-                        credit.showCard();
+                    if (client.getCreditCards().isEmpty()) {
+                        System.out.println("No credit cards registered.");
+                    } else {
+                        for (CreditCard creditCard : client.getCreditCards()) {
+                            creditCard.showCard();
+                        }
                     }
                     break;
-                case "2":
+                case "3":
                     if(client.getDebitCard().verifyClabe()){
                         try {
                             System.out.println("Enter the amount you wish to deposit: ");
@@ -94,79 +100,73 @@ public class Menu {
                             if (amount > 0){
                                 client.getDebitCard().depositMoney(amount);
                             }
-                        } catch (InputMismatchException e) {
+                        } catch (Exception e) {
                             System.out.println("You must enter an integer");
                         }
                         System.out.println("Money successfully deposited");
                         scanner.nextLine();
                     }
                     break;
-                case "3":
+                case "4":
                     if(client.getDebitCard().verifyClabe()){
                         try {
                             System.out.println("Enter the amount you wish to withdraw: ");
                             int amount = scanner.nextInt();
                             client.getDebitCard().withdrawMoney(amount);
-                        } catch (InputMismatchException e) {
+                        } catch (Exception e) {
                             System.out.println("You must enter an integer");
                         }
                         System.out.println("Money successfully withdrawn");
                         scanner.nextLine();
                     }
                     break;
-                case "4":
-                    CreditCard credit = null;
-                    if (client.getCreditCards().isEmpty()) break;
-                    client.printCreditCardIndex();
-                    try {
-                        System.out.println("Enter the card you will pay with: ");
-                        int cardIndex = scanner.nextInt();
-                        if (cardIndex < client.getCreditCards().size() && cardIndex >= 0){
-                            credit = client.getCreditCards().get(cardIndex);
-                        }
-                    } catch (InputMismatchException e) {
-                        System.out.println("You must enter an integer");
-                    }
-                    assert credit != null;
-                    if(credit.verifyClabe()){
-                        try {
-                            System.out.println("Enter the amount you will pay: ");
-                            int amount = scanner.nextInt();
-                            if (credit.getCredit() - amount >= 0){
-                                credit.payWithCard(amount);
-                            }
-                            else{
-                                System.out.println("Insufficient credit");
-                            }
-                        } catch (InputMismatchException e) {
-                            System.out.println("You must enter an integer");
-                        }
-                        scanner.nextLine();
-                    }
-                    break;
                 case "5":
-                    if (client.getCreditCards().isEmpty()) break;
-                    if(client.getDebitCard().verifyClabe()){
-                        client.printCreditCardIndex();
-                        try {
-                            System.out.println("Enter the card to pay: ");
-                            int cardIndex = scanner.nextInt();
-                            if (cardIndex < client.getCreditCards().size() && cardIndex >= 0){
-                                client.getCreditCards().get(cardIndex).payCard(client);
+                    if (client.getCreditCards().isEmpty()) {
+                        System.out.println("No credit cards available.");
+                        break;
+                    }
+                    client.printCreditCardIndex();
+                    System.out.println("Select the index of the credit card you want to use:");
+                    try {
+                        int cardIndex = Integer.parseInt(scanner.nextLine());
+                        if (cardIndex >= 0 && cardIndex < client.getCreditCards().size()) {
+                            CreditCard creditCard = client.getCreditCards().get(cardIndex);
+                            if (creditCard.verifyClabe()) {
+                                System.out.println("Enter the payment amount:");
+                                double amount = Double.parseDouble(scanner.nextLine());
+                                creditCard.payWithCard(amount);
                             }
-                        } catch (InputMismatchException e) {
-                            System.out.println("You must enter an integer");
+                        } else {
+                            System.out.println("Invalid credit card index.");
                         }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a valid number.");
                     }
                     break;
                 case "6":
-                    client.showCards();
+                    if (client.getCreditCards().isEmpty()) {
+                        System.out.println("No credit cards to pay.");
+                        break;
+                    }
+                    client.printCreditCardIndex();
+                    System.out.println("Select the index of the credit card to pay off:");
+                    try {
+                        int cardIndex = Integer.parseInt(scanner.nextLine());
+                        if (cardIndex >= 0 && cardIndex < client.getCreditCards().size()) {
+                            CreditCard creditCard = client.getCreditCards().get(cardIndex);
+                            creditCard.payCard(client);
+                        } else {
+                            System.out.println("Invalid credit card index.");
+                        }
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid input. Please enter a valid number.");
+                    }
                     break;
                 case "7":
                     client.requestCreditCard();
                     break;
                 case "8":
-                    client.viewCreditCardRequests();
+                    client.viewCreditCardRequestsClient();
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
@@ -184,176 +184,154 @@ public class Menu {
         Scanner scanner = new Scanner(System.in);
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
         System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + " you are in the manager menu.");
+
         do {
+            System.out.println("-----------------------------------");
             System.out.println("1 - Client options");
-            System.out.println("2 - Account executive options");
-            System.out.println("3 - Investor options");
-            System.out.println("4 - Capturist options");
-            System.out.println("5 - Review requests");
-            System.out.println("6 - Show cards");
+            System.out.println("2 - Client options");
+            System.out.println("3 - Account executive options");
+            System.out.println("4 - Investor options");
+            System.out.println("5 - Capturist options");
+            System.out.println("6 - Review requests");
             System.out.println("7 - Show users");
             System.out.println("E - Log out.");
             option = scanner.nextLine();
+
             switch (option) {
-                case "1": // Client
+                case "1":
+                    Manager.showInfoAllManagers();
+                    break;
+                case "2":
                     managerMenuClient();
                     break;
-                case "2": // Executives
+                case "3":
                     managerMenuExecutive();
                     break;
-                case "3": // Investor
+                case "4":
                     managerMenuInvestor();
                     break;
-                case "4": // Capturist
+                case "5":
                     managerMenuCapturist();
                     break;
-                case "5":
-                            boolean bandp = false;
-                            if (users != null) {
-                                for (User user : users) {
-                                    Client client = (Client) user;
-                                    if (client.getCardRequests() != null) {
-                                        for (RequestCard request : client.getCardRequests()) {
-                                            if (request.getStatus().equals("In process")) {
-                                                bandp = true;
-                                                break;
-                                            }
-                                        }
-                                    }
-                                }
-                            }
-                            if (!bandp) {
-                                System.out.println("No active requests");
-                                executeManagerMenu();
-                            } else {
-                                boolean bandv = true;
-                                Client finalClient = null;
-                                int requestIndex = 0;
-                                for (User user : users) {
-                                    Client client = (Client) user;
-                                    client.viewCreditCardRequests();
-                                }
-                                while (bandv) {
-                                    System.out.println("Enter the username of the applicant: ");
-                                    String username = scanner.nextLine();
-                                    for (User user : users) {
-                                        if (user.getUsername().equals(username)) {
-                                            finalClient = (Client) user;
-                                            bandv = false;
-                                            break;
-                                        }
-                                    }
-                                    if (bandv) {
-                                        System.out.println("User entered not found");
-                                    }
-                                }
-                                while (true) {
-                                    RequestCard test = null;
-                                    try {
-                                        System.out.println("Enter the request number: ");
-                                        requestIndex = scanner.nextInt();
-                                    } catch (InputMismatchException e) {
-                                        System.out.println("You must enter an integer");
-                                        scanner.nextLine();
-                                        continue;
-                                    }
-                                    try {
-                                        if (finalClient != null && finalClient.getCardRequests() != null && requestIndex >= 0 && requestIndex < finalClient.getCardRequests().size()) {
-                                            test = finalClient.getCardRequests().get(requestIndex);
-                                            if (!test.getStatus().equals("In process")) {
-                                                test = null;
-                                            }
-                                        }
-                                    } catch (IndexOutOfBoundsException e) {
-                                        System.out.println("Invalid index.");
-                                    }
-                                    if (test != null) {
-                                        break;
-                                    }
-                                }
-                                scanner.nextLine();
-                                while (true) {
-                                    try {
-                                        System.out.println("What do you want to do with the request: [A] Approve [R] Reject");
-                                        option = scanner.nextLine();
-                                        if (option.equals("A")) {
-                                            finalClient.getCardRequests().get(requestIndex).approveRequest();
-                                            break;
-                                        } else if (option.equals("R")) {
-                                            finalClient.getCardRequests().get(requestIndex).rejectRequest();
-                                            break;
-                                        } else {
-                                            System.out.println("Invalid option");
-                                        }
-                                    } catch (Exception e) {
-                                        System.out.println("An error occurred: " + e.getMessage());
-                                    }
-                                }
-                            }
-                    
-                    break;
                 case "6":
-                if (users != null) {
+                    boolean hasActiveRequests = false;
                     for (User user : users) {
-                        // Verificar si el usuario es una instancia de Client antes de intentar acceder a sus atributos específicos
                         if (user instanceof Client) {
                             Client client = (Client) user;
-                            // Verificar si la tarjeta de débito de cliente no es nula antes de mostrarla
-                            if (client.getDebitCard() != null) {
-                                client.getDebitCard().showCard();
-                            } else {
-                                System.out.println("Debit card not available for user: " + client.getUsername());
-                            }
-                            // Verificar si hay tarjetas de crédito antes de mostrarlas
-                            if (client.getCreditCards() != null) {
-                                for (CreditCard credit : client.getCreditCards()) {
-                                    // Verificar si la tarjeta de crédito no es nula antes de mostrarla
-                                    if (credit != null) {
-                                        credit.showCard();
-                                    } else {
-                                        System.out.println("Credit card not available for user: " + client.getUsername());
-                                    }
+                            for (RequestCard request : client.getCardRequests()) {
+                                if (request.getStatus().equals("In process")) {
+                                    hasActiveRequests = true;
+                                    break;
                                 }
-                            } else {
-                                System.out.println("No credit cards available for user: " + client.getUsername());
                             }
-                        } else {
-                            System.out.println("User is not a client: " + user.getUsername());
                         }
                     }
-                } else {
-                    System.out.println("No cards available.");
-                }
+                    if (!hasActiveRequests) {
+                        System.out.println("No active requests");
+                    } else {
+                        for (User user : users) {
+                            if (user instanceof Client) {
+                                Client client = (Client) user;
+                                client.viewCreditCardRequestsInProcess();
+                            }
+                        }
+                        Client finalClient = null;
+                        int requestIndex = 0;
+                        while (finalClient == null) {
+                            System.out.println("Enter the username of the applicant or type 'exit' to cancel:");
+                            String name = scanner.nextLine();
+                            if ("exit".equalsIgnoreCase(name)) break;
+                            for (User user : users) {
+                                if (user.getUsername().equals(name) && user instanceof Client) {
+                                    finalClient = (Client) user;
+                                    break;
+                                }
+                            }
+                            if (finalClient == null) {
+                                System.out.println("User not found, try again.");
+                            }
+                        }
+
+                        if (finalClient != null) {
+                            RequestCard testRequest = null;
+                            while (testRequest == null) {
+                                System.out.println("Enter the request number:");
+                                try {
+                                    requestIndex = scanner.nextInt();
+                                    scanner.nextLine();  // Clear buffer
+                                    testRequest = finalClient.getCardRequests().get(requestIndex);
+                                    if (!"In process".equals(testRequest.getStatus())) {
+                                        System.out.println("Request not in process, choose another.");
+                                        testRequest = null;
+                                    }
+                                } catch (InputMismatchException e) {
+                                    System.out.println("Please enter an integer.");
+                                    scanner.nextLine();
+                                } catch (IndexOutOfBoundsException e) {
+                                    System.out.println("Invalid index, please try again.");
+                                }
+                            }
+
+                            while (true) {
+                                System.out.println("Request active: [A] Approve, [R] Reject, [C] Cancel");
+                                String option_request = scanner.nextLine().trim().toUpperCase();
+                                switch (option_request) {
+                                    case "A":
+                                        testRequest.approveRequest();
+                                        System.out.println("Request approved successfully.");
+                                        return;
+                                    case "R":
+                                        testRequest.rejectRequest();
+                                        System.out.println("Request rejected successfully.");
+                                        return;
+                                    case "C":
+                                        System.out.println("No action taken, returning to menu.");
+                                        return;
+                                    default:
+                                        System.out.println("Invalid option, please enter 'A' to approve, 'R' to reject, or 'C' to cancel.");
+                                }
+                            }
+                        }
+                    }
                     break;
                 case "7":
                     try {
                         User.showAllUsers();
                     } catch (Exception e) {
-                        System.out.println("There is no users");
+                        System.out.println("There are no users.");
                     }
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
-                    LogIn();
-                    break;
+                    return;
                 default:
                     System.out.println("Invalid option");
                     break;
             }
-        } while (!option.equals("E"));
+        } while (!"E".equalsIgnoreCase(option));
     }
 
     private static void executeInvestorMenu() {
-        System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + " you are in the investor menu.");
         String option = "";
         Scanner scanner = new Scanner(System.in);
+        Investor investor = (Investor) UserInSession.getActualUser();
+        System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + " you are in the investor menu.");
         do {
-            System.out.println("1 - Make investment to the bank");
+            System.out.println("-----------------------------------");
+            System.out.println("1 - Show personal information");
+            System.out.println("2 - Make investment to the bank");
+            System.out.println("3 - Show Investor specific details:");
             System.out.println("E - Log out");
             option = scanner.nextLine();
             switch (option) {
                 case "1":
+                    investor.showPersonalInfo();
+                    break;
+                case "2":
                     Investor.makeInvestment();
+                    break;
+                case "3":
+                    Investor.showInvestmentDetails();
                     break;
                 case "E":
                     UserInSession.getInstance().logOut();
@@ -369,36 +347,41 @@ public class Menu {
     private static void executeCapturistMenu() {
         String option = "";
         Scanner scanner = new Scanner(System.in);
+        Capturist capturist = (Capturist) UserInSession.getActualUser();
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE);
         System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + " you are in the capturist menu.");
         do {
-            System.out.println("1 - Register account executive");
-            System.out.println("2 - Modify account executive information");
-            System.out.println("3 - Delete account executive");
-            System.out.println("4 - Show account executives");
-
+            System.out.println("-----------------------------------");
+            System.out.println("1 - Show personal information");
+            System.out.println("2 - Register account executive");
+            System.out.println("3 - Modify account executive information");
+            System.out.println("4 - Delete account executive");
+            System.out.println("5 - Show account executives");
             System.out.println("E - Log out.");
             option = scanner.nextLine();
             switch (option) {
                 case "1":
+                    capturist.showPersonalInfo();
+                    break;
+                case "2":
                     AccountExecutive.registerAccountExecutive();
                     System.out.println("Account Executive successfully registered.");
                     break;
-                case "2":
+                case "3":
                         try {
                             AccountExecutive.updateAccountExecutiveInformation(users, scanner);
                         } catch (Exception e) {
                             System.out.println("No Account Executives registered");
                         }
                     break;
-                case "3":
+                case "4":
                     try {
                         AccountExecutive.deleteAccountExecutive(users, scanner);
                     } catch (Exception e) {
                         System.out.println("No Account Executives registered");
                     }
                     break;
-                case "4":
+                case "5":
                     try{
                         AccountExecutive.showInfoAllAccountExecutives();
                     } catch (Exception e){
@@ -419,86 +402,99 @@ public class Menu {
     private static void executeAccountExecutiveMenu() {
         String option = "";
         Scanner scanner = new Scanner(System.in);
+        AccountExecutive accountExecutive = (AccountExecutive) UserInSession.getActualUser();
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
         System.out.println("Welcome " + UserInSession.getActualUser().getFirstName() + " you are in the account executive menu.");
         do {
-            System.out.println("1 - Register client");
-            System.out.println("2 - Modify client information");
-            System.out.println("3 - Delete client");
-            System.out.println("4 - Review requests");
-            System.out.println("5 - Show clients");
+            System.out.println("-----------------------------------");
+            System.out.println("1 - Show personal information");
+            System.out.println("2 - Register client");
+            System.out.println("3 - Modify client information");
+            System.out.println("4 - Delete client");
+            System.out.println("5 - Review requests");
+            System.out.println("6 - Show clients");
             System.out.println("E - Log out.");
             option = scanner.nextLine();
             switch (option) {
                 case "1":
+                    accountExecutive.showPersonalInfo();
+                    break;
+                case "2":
                     Client.registerClient();
                     System.out.println("Client successfully registered.");
                     break;
-                case "2":
+                case "3":
                     try {
                         Client.updateClientInformation(users, scanner);
                     } catch (Exception e) {
                         System.out.println("No Clients registered");
                     }
                     break;
-                case "3":
+                case "4":
                     try {
                         Client.deleteClient(users, scanner);
                     } catch (Exception e) {
                         System.out.println("No Clients registered");
                     }
                         break;
-                case "4":
-                    boolean bandv = true;
+                case "5":
+                    boolean isValidUser = true;
                     Client finalClient = null;
                     int requestIndex = 0;
+
                     for (User user : users) {
-                        Client client = (Client) user;
-                        client.viewCreditCardRequests();
+                        if (user instanceof Client) {
+                            Client client = (Client) user;
+                            client.viewCreditCardRequestsInProcess();
+                        }
                     }
-                    while (bandv) {
-                        System.out.println("Enter the username: ");
-                        String username = scanner.nextLine();
+                    while (isValidUser) {
+                        System.out.println("Enter the Client Name: ");
+                        String name = scanner.nextLine();
                         for (User user : users) {
-                            if (user.getUsername().equals(username)) {
+                            if (user.getUsername().equals(name)) {
                                 finalClient = (Client) user;
-                                bandv = false;
+                                isValidUser = false;
                                 break;
                             }
                         }
-                        if (bandv) {
-                            System.out.println("User entered not found");
+                        if (isValidUser) {
+                            System.out.println("Client not found.");
                         }
                     }
                     while (true) {
                         try {
                             System.out.println("Enter the request number: ");
                             requestIndex = scanner.nextInt();
+                            scanner.nextLine();
                         } catch (InputMismatchException e) {
-                            System.out.println("You must enter an integer");
+                            System.out.println("Please enter an integer.");
+                            scanner.nextLine();
+                            continue;
                         }
                         if (requestIndex < 0 || requestIndex >= users.size()) {
-                            System.out.println("Invalid index");
+                            System.out.println("Invalid index.");
                         } else {
                             break;
                         }
                     }
-                    scanner.nextLine();
                     while (true) {
-                        System.out.println("What do you want to do with the request: [A] Approve [R] Reject");
-                        option = scanner.nextLine();
-                        if (option.equals("A")) {
-                            finalClient.getCardRequests().get(requestIndex).approveRequest();
-                            break;
-                        } else if (option.equals("R")) {
-                            finalClient.getCardRequests().get(requestIndex).rejectRequest();
-                            break;
-                        } else {
-                            System.out.println("Invalid option");
+                        System.out.println("Request active: [A] Approve [R] Reject");
+                        String option_request = scanner.nextLine().trim().toUpperCase();
+                        switch (option_request) {
+                            case "A":
+                                finalClient.getCardRequests().get(requestIndex).approveRequest();
+                                System.out.println("Request approved successfully.");
+                                return;
+                            case "R":
+                                finalClient.getCardRequests().get(requestIndex).rejectRequest();
+                                System.out.println("Request rejected successfully.");
+                                return;
+                            default:
+                                System.out.println("Invalid option, please enter 'A' to approve or 'R' to reject.");
                         }
                     }
-                    break;
-                case "5":
+                case "6":
                     try{
                         Client.showInfoAllClients();
                     }catch (Exception e) {
@@ -521,13 +517,12 @@ public class Menu {
         String option = "";
         Scanner scanner = new Scanner(System.in);
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CAPTURIST);
-        System.out.println("****** Capturist options ******");
+        System.out.println("-------- Capturist options --------");
         do {
             System.out.println("1 - Register capturist");
             System.out.println("2 - Modify capturist information");
             System.out.println("3 - Delete capturist");
             System.out.println("4 - Show capturists");
-
             System.out.println("E - Exit.");
             option = scanner.nextLine();
             switch (option) {
@@ -568,18 +563,17 @@ public class Menu {
 
     private static void managerMenuInvestor() {
         String option = "";
-        boolean band = false, bandc = false;
         Scanner scanner = new Scanner(System.in);
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.INVESTOR);
-        System.out.println("****** Investor options ******");
+        System.out.println("-------- Investor options --------");
         do {
             System.out.println("1 - Register investor");
             System.out.println("2 - Modify investor information");
             System.out.println("3 - Delete investor");
             System.out.println("4 - Show investor");
-
             System.out.println("E - Exit.");
             option = scanner.nextLine();
+            boolean band = false, bandc = false;
             switch (option) {
                 case "1":
                     band = managerPassword();
@@ -641,7 +635,7 @@ public class Menu {
         String option = "";
         Scanner scanner = new Scanner(System.in);
         ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.ACCOUNT_EXECUTIVE);
-        System.out.println("****** Account executive options ******");
+        System.out.println("-------- Account Executive options --------");
         do {
             System.out.println("1 - Register account executive");
             System.out.println("2 - Modify account executive information");
@@ -686,54 +680,52 @@ public class Menu {
     }
 
     private static void managerMenuClient() {
+        String option = "";
         Scanner scanner = new Scanner(System.in);
+        ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
+        System.out.println("-------- Client options --------");
+        do {
+            System.out.println("1 - Register client");
+            System.out.println("2 - Modify client information");
+            System.out.println("3 - Delete client");
+            System.out.println("4 - Show clients");
+            System.out.println("E - Exit.");
+            option = scanner.nextLine();
 
-            ArrayList<User> users = Bank.users.get(UserInSession.getActualUser().getBranchOfficeRole()).get(Role.CLIENT);
-
-            System.out.println("****** Client options ******");
-            String option = "";
-            do {
-                System.out.println("1 - Register client");
-                System.out.println("2 - Modify client information");
-                System.out.println("3 - Delete client");
-                System.out.println("4 - Show clients");
-                System.out.println("E - Exit.");
-                option = scanner.nextLine();
-
-                switch (option) {
-                    case "1":
-                        Client.registerClient();
-                        System.out.println("Client successfully registered.");
-                        break;
-                    case "2":
-                        try{
-                            Client.updateClientInformation(users, scanner);
-                        }catch (Exception e) {
-                            System.out.println("No Clients registered");
-                        }
-                        break;
-                    case "3":
-                        try{
-                            Client.deleteClient(users, scanner);
-                        }catch (Exception e) {
-                            System.out.println("No Clients registered");
-                        }
-                        break;
-                    case "4":
-                        try{
-                            Client.showInfoAllClients();
-                        }catch (Exception e) {
-                            System.out.println("No Clients registered");
-                        }
-                        break;
-                    case "E":
-                        executeManagerMenu();
-                        break;
-                    default:
-                        System.out.println("Invalid option");
-                        break;
-                }
-            } while (!option.equals("E"));
+            switch (option) {
+                case "1":
+                    Client.registerClient();
+                    System.out.println("Client successfully registered.");
+                    break;
+                case "2":
+                    try{
+                        Client.updateClientInformation(users, scanner);
+                    }catch (Exception e) {
+                        System.out.println("No Clients registered");
+                    }
+                    break;
+                case "3":
+                    try{
+                        Client.deleteClient(users, scanner);
+                    }catch (Exception e) {
+                        System.out.println("No Clients registered");
+                    }
+                    break;
+                case "4":
+                    try{
+                        Client.showInfoAllClients();
+                    }catch (Exception e) {
+                        System.out.println("No Clients registered");
+                    }
+                    break;
+                case "E":
+                    executeManagerMenu();
+                    break;
+                default:
+                    System.out.println("Invalid option");
+                    break;
+            }
+        } while (!option.equals("E"));
     }
     
 

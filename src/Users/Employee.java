@@ -19,7 +19,6 @@ public class Employee extends User {
         this.startDate = startDate;
     }
 
-
     public static LocalDate getStartDate() {
         Scanner scanner = new Scanner(System.in);
         int day, month, year;
@@ -61,11 +60,11 @@ public class Employee extends User {
                 System.out.println("Enter the start date of employment (year): ");
                 int number = scanner.nextInt();
 
-                if (number >= 1920 && number <= LocalDate.now().getYear()) {
+                if (number >= 1900 && number <= 2006) {
                     year = number;
                     break;
                 } else {
-                    System.out.println("Invalid number. It must be an integer between 1920 and the current year.");
+                    System.out.println("Invalid number. It must be an integer between 1900 and 2006");
                 }
             } catch (InputMismatchException e) {
                 System.out.println("Invalid input. Please enter an integer.");

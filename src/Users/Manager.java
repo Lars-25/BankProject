@@ -51,8 +51,7 @@ public class Manager extends Employee {
         users.get(branchOfficeRole).get(Role.MANAGER).add(manager);
     }
 
-    public static void showAllManagers() {
-        try {
+    public static void showInfoAllManagers() {
             HashMap<BranchOfficeRole, HashMap<Role, ArrayList<User>>> usersByBranchOffice = users;
             for (Map.Entry<BranchOfficeRole, HashMap<Role, ArrayList<User>>> branchOfficeEntry : usersByBranchOffice.entrySet()) {
                 BranchOfficeRole branchOfficeRole = branchOfficeEntry.getKey();
@@ -62,7 +61,6 @@ public class Manager extends Employee {
                     ArrayList<User> branchOfficeManagers = rolesAtBranchOffice.get(Role.MANAGER);
                     System.out.println("Branch Office managers at the branch " + branchOfficeRole + ":");
                     for (User manager : branchOfficeManagers) {
-                        try {
                             System.out.printf("Name: %s %s\n", manager.getFirstName(), manager.getLastName());
                             System.out.printf("Birthdate: %s\n", manager.getBirthDate().toString());
                             System.out.printf("City: %s\n", manager.getCity());
@@ -70,16 +68,12 @@ public class Manager extends Employee {
                             System.out.printf("CURP: %s\n", manager.getCurp());
                             System.out.printf("RFC: %s\n", manager.getRfc());
                             System.out.printf("Address: %s\n", manager.getAddress());
-                        } catch (Exception e) {
-                            System.out.println("Error retrieving manager details: " + e.getMessage());
-                        }
+                            System.out.printf("Username: %s\n", manager.getUsername());
+                            System.out.printf("Password: %s\n", manager.getPassword());
                     }
                 } else {
                     System.out.println("There are no branch managers at the branch " + branchOfficeRole);
                 }
             }
-        } catch (Exception e) {
-            System.out.println("Error retrieving branch office managers: " + e.getMessage());
-        }
     }
 }

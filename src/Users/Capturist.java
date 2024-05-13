@@ -149,5 +149,10 @@ public class Capturist extends Employee {
                 }
             }
     }
+
+    @Override
+    public void showPersonalInfo() {
+        super.showPersonalInfo();
+    }
     
 }
